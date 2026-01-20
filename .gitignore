@@ -2,6 +2,7 @@
 bin/
 obj/
 Libs/*
+Cascade/Libs/*
 # Visual Studio workspace
 .vs/
 # User-specific files

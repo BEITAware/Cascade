@@ -10,7 +10,8 @@
         Title="{DynamicResource App_Title}" Height="957" Width="906"
         Style="{StaticResource AeroWindowStyle}"
         WindowStartupLocation="CenterScreen"
-        Background="{StaticResource AeroWindowBackgroundBrush}">
+        Background="{StaticResource AeroWindowBackgroundBrush}"
+        Icon="Resources/CascadeLogo.ico">
 
     <Window.DataContext>
         <vm:MainViewModel/>

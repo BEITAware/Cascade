@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'v*'
+      - 'PublicBeta*'
   workflow_dispatch:
 
 jobs:

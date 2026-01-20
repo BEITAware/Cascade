@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="Layer_9" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Geometry="F1 M 5.396,1.7558L 223.02,1.7558C 225.229,1.7558 227.02,3.54669 227.02,5.7558L 227.02,82.9529C 227.02,85.162 225.229,86.9529 223.02,86.9529L 5.396,86.9529C 3.18677,86.9529 1.396,85.162 1.396,82.9529L 1.396,5.7558C 1.396,3.54669 3.18677,1.7558 5.396,1.7558 Z ">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" Brush="#67BBDDF2"/>
+						</GeometryDrawing.Pen>
+						<GeometryDrawing.Brush>
+							<LinearGradientBrush StartPoint="0.500003,-0.887096" EndPoint="0.500003,1.8871">
+								<LinearGradientBrush.GradientStops>
+									<GradientStop Color="#FF324F80" Offset="0.30781"/>
+									<GradientStop Color="#FF142E74" Offset="0.488515"/>
+									<GradientStop Color="#FF09246B" Offset="0.500766"/>
+									<GradientStop Color="#FF0A348A" Offset="0.681473"/>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+					<GeometryDrawing Geometry="F1 M 6.13379,1.00006L 223.758,1.00006C 225.967,1.00006 227.758,2.79089 227.758,5.00006L 227.758,82.1971C 227.758,84.4063 225.967,86.1971 223.758,86.1971L 6.13379,86.1971C 3.9248,86.1971 2.13403,84.4063 2.13403,82.1971L 2.13403,5.00006C 2.13403,2.79089 3.9248,1.00006 6.13379,1.00006 Z ">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" Brush="#67BBDDF2"/>
+						</GeometryDrawing.Pen>
+						<GeometryDrawing.Brush>
+							<RadialGradientBrush RadiusX="0.692214" RadiusY="0.551287" Center="0.499185,1.12353" GradientOrigin="0.499185,1.12353">
+								<RadialGradientBrush.GradientStops>
+									<GradientStop Color="#FF3A5AC6" Offset="0.212864"/>
+									<GradientStop Color="#013C4F73" Offset="1"/>
+								</RadialGradientBrush.GradientStops>
+								<RadialGradientBrush.RelativeTransform>
+									<TransformGroup/>
+								</RadialGradientBrush.RelativeTransform>
+							</RadialGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

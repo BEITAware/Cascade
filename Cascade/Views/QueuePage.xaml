@@ -1,0 +1,162 @@
+<UserControl x:Class="Cascade.Views.QueuePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Cascade.Views"
+             xmlns:vm="clr-namespace:Cascade.ViewModels"
+             xmlns:helpers="clr-namespace:Cascade.Helpers"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800"
+             Background="Transparent">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Cascade;component/Styles/MediaStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- 转换器 -->
+            <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <!-- 队列页面 - 任务队列管理功能 -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- 工具栏 -->
+            <RowDefinition Height="*"/>
+            <!-- 队列列表 -->
+        </Grid.RowDefinitions>
+
+        <!-- 顶部工具栏 - 使用媒体页面同款样式 -->
+        <Border Grid.Row="0" Background="{StaticResource MediaBarGlassBrush}" BorderBrush="#80FFFFFF" BorderThickness="1" Margin="2" CornerRadius="3" Padding="10,5">
+            <StackPanel Orientation="Horizontal">
+                <Button Command="{Binding StartCommand}" Style="{StaticResource MediaToolbarButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Icons/Play.png" Width="32" Height="32" Margin="0,0,5,0"/>
+                        <TextBlock Text="{DynamicResource Queue_Button_Start}" VerticalAlignment="Center" FontSize="12"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding PauseCommand}" Style="{StaticResource MediaToolbarButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Icons/Pause.png" Width="32" Height="32" Margin="0,0,5,0"/>
+                        <TextBlock Text="{DynamicResource Queue_Button_Pause}" VerticalAlignment="Center" FontSize="12"/>
+                    </StackPanel>
+                </Button>
+
+                <Rectangle Width="1" Height="20" Fill="#33FFFFFF" Margin="5,0"/>
+
+                <Button Command="{Binding MoveUpCommand}" Style="{StaticResource MediaToolbarButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Icons/ArrowUp.png" Width="32" Height="32" Margin="0,0,5,0"/>
+                        <TextBlock Text="{DynamicResource Queue_Button_MoveUp}" VerticalAlignment="Center" FontSize="12"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding MoveDownCommand}" Style="{StaticResource MediaToolbarButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Icons/ArrowDown.png" Width="32" Height="32" Margin="0,0,5,0"/>
+                        <TextBlock Text="{DynamicResource Queue_Button_MoveDown}" VerticalAlignment="Center" FontSize="12"/>
+                    </StackPanel>
+                </Button>
+
+                <Rectangle Width="1" Height="20" Fill="#33FFFFFF" Margin="5,0"/>
+
+                <Button Command="{Binding RemoveCommand}" Style="{StaticResource MediaToolbarButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Icons/RedCross.png" Width="32" Height="32" Margin="0,0,5,0"/>
+                        <TextBlock Text="{DynamicResource Queue_Button_Remove}" VerticalAlignment="Center" FontSize="12"/>
+                    </StackPanel>
+                </Button>
+
+                <Rectangle Width="1" Height="20" Fill="#33FFFFFF" Margin="5,0"/>
+
+                <Button Command="{Binding ClearCompletedCommand}" Style="{StaticResource MediaToolbarButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Icons/TrashBin.png" Width="32" Height="32" Margin="0,0,5,0"/>
+                        <TextBlock Text="{DynamicResource Queue_Button_ClearCompleted}" VerticalAlignment="Center" FontSize="12"/>
+                    </StackPanel>
+                </Button>
+
+                <Rectangle Width="1" Height="20" Fill="#33FFFFFF" Margin="5,0"/>
+
+                <Button Command="{Binding SettingsCommand}" Style="{StaticResource MediaToolbarButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Icons/Settings.png" Width="32" Height="32" Margin="0,0,5,0"/>
+                        <TextBlock Text="{DynamicResource Queue_Button_Settings}" VerticalAlignment="Center" FontSize="12"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <!-- 队列列表 - 使用媒体页面同款ListView样式 -->
+        <Border Grid.Row="1" BorderBrush="#33FFFFFF" BorderThickness="1" Margin="0" CornerRadius="3">
+            <ListView x:Name="QueueListView"
+                      Margin="0,0,0,0"
+                      ItemsSource="{Binding QueueItems}"
+                      SelectedItem="{Binding SelectedItem}"
+                      SelectionMode="Extended"
+                      Background="Transparent"
+                      BorderThickness="0"
+                      Padding="0"
+                      SnapsToDevicePixels="True"
+                      Foreground="White"
+                      ItemContainerStyle="{StaticResource MediaListViewItemStyle}"
+                      helpers:ListBoxBehaviors.SelectedItems="{Binding SelectedItems}">
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource MediaListViewHeaderStyle}">
+                        <GridViewColumn Width="110">
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{DynamicResource Queue_Header_Preview}"/>
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid Width="96" Height="54">
+                                        <Border Background="Black" BorderBrush="#40FFFFFF" BorderThickness="1" CornerRadius="2">
+                                            <Border.Clip>
+                                                <RectangleGeometry Rect="0,0,96,54" RadiusX="2" RadiusY="2"/>
+                                            </Border.Clip>
+                                            <Grid>
+                                                <TextBlock Text="{DynamicResource Queue_Placeholder_NoPreview}" Foreground="#66FFFFFF" FontSize="9" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Thumbnail}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                                <Image Source="{Binding Thumbnail}" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                        <Rectangle Fill="{StaticResource ListViewThumbnailGlassSliceBrush}" IsHitTestVisible="False"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Queue_Header_Name}" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="{DynamicResource Queue_Header_Status}" Width="100" DisplayMemberBinding="{Binding Status}"/>
+                        <GridViewColumn Header="{DynamicResource Queue_Header_Progress}" Width="120">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <ProgressBar Value="{Binding Progress}" Maximum="100" Height="16" Background="#20FFFFFF" Foreground="#FF4CAF50"/>
+                                        <TextBlock Text="{Binding ProgressText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" Foreground="White"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{DynamicResource Queue_Header_Format}" Width="60" DisplayMemberBinding="{Binding Format}"/>
+                        <GridViewColumn Header="{DynamicResource Queue_Header_Size}" Width="80" DisplayMemberBinding="{Binding Size}"/>
+                        <GridViewColumn Header="{DynamicResource Queue_Header_Duration}" Width="80" DisplayMemberBinding="{Binding Duration}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+    </Grid>
+</UserControl>

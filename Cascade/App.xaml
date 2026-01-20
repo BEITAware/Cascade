@@ -1,0 +1,30 @@
+﻿<Application x:Class="Cascade.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Cascade"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- ═══════════════════════════════════════════════════════════════ -->
+                <!--                       全局样式资源加载顺序                        -->
+                <!-- ═══════════════════════════════════════════════════════════════ -->
+                
+                <!-- 0. 语言资源（默认语言，运行时由 LocalizationService 动态替换） -->
+                <ResourceDictionary Source="Resources/Strings/Strings.zh-CN.xaml"/>
+                
+                <!-- 1. 基础颜色和画刷定义（无依赖） -->
+                <ResourceDictionary Source="Styles/AeroColors.xaml"/>
+                
+                <!-- 2. 显式控件样式（依赖 AeroColors） -->
+                <ResourceDictionary Source="Styles/AeroControls.xaml"/>
+                <ResourceDictionary Source="Styles/AeroScrollBars.xaml"/>
+                <ResourceDictionary Source="Styles/WindowStyle.xaml"/>
+                
+                <!-- 3. 隐式样式（必须最后加载，依赖上述所有资源） -->
+                <!-- 隐式样式会自动应用于所有匹配 TargetType 的控件 -->
+                <ResourceDictionary Source="Styles/AeroImplicitStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

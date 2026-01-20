@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="Layer_6" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Geometry="F1 M 22,3.99988L 1122,3.99988C 1131.94,3.99988 1140,12.0588 1140,21.9999L 1140,454C 1140,463.941 1131.94,472 1122,472L 22,472C 12.0588,472 4,463.941 4,454L 4,21.9999C 4,12.0588 12.0588,3.99988 22,3.99988 Z ">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="8" StartLineCap="Round" EndLineCap="Round" LineJoin="Round">
+								<Pen.Brush>
+									<RadialGradientBrush RadiusX="1.72783" RadiusY="1.72269" Center="0.5,0.0168067" GradientOrigin="0.5,0.0168067">
+										<RadialGradientBrush.GradientStops>
+											<GradientStop Color="#00FFFFFF" Offset="0"/>
+											<GradientStop Color="#FFFFFFFF" Offset="1"/>
+										</RadialGradientBrush.GradientStops>
+										<RadialGradientBrush.RelativeTransform>
+											<TransformGroup/>
+										</RadialGradientBrush.RelativeTransform>
+									</RadialGradientBrush>
+								</Pen.Brush>
+							</Pen>
+						</GeometryDrawing.Pen>
+						<GeometryDrawing.Brush>
+							<RadialGradientBrush RadiusX="1.74" RadiusY="1.75214" Center="0.5,0.00854701" GradientOrigin="0.5,0.00854701">
+								<RadialGradientBrush.GradientStops>
+									<GradientStop Color="#25FFFFFF" Offset="0"/>
+									<GradientStop Color="#00FFFFFF" Offset="0.185299"/>
+									<GradientStop Color="#1AFFFFFF" Offset="0.540582"/>
+									<GradientStop Color="#FFFFFFFF" Offset="1"/>
+								</RadialGradientBrush.GradientStops>
+								<RadialGradientBrush.RelativeTransform>
+									<TransformGroup/>
+								</RadialGradientBrush.RelativeTransform>
+							</RadialGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

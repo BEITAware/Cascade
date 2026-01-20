@@ -1,0 +1,378 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    
+    <!-- Application level -->
+    <system:String x:Key="App_Title">Cascade</system:String>
+    
+    <!-- Tab names -->
+    <system:String x:Key="Tab_Media">Media</system:String>
+    <system:String x:Key="Tab_Operations">Operations</system:String>
+    <system:String x:Key="Tab_Tasks">Tasks</system:String>
+    <system:String x:Key="Tab_Queue">Queue</system:String>
+    
+    <!-- Status bar -->
+    <system:String x:Key="Status_Label">Message</system:String>
+    <system:String x:Key="Status_Message">Ready</system:String>
+    <system:String x:Key="Status_Ready">Ready</system:String>
+    
+    <!-- Notification messages -->
+    <system:String x:Key="Notification_FileSaved">File saved</system:String>
+    <system:String x:Key="Notification_OperationComplete">Operation complete</system:String>
+    <system:String x:Key="Notification_ProcessingStarted">Processing started</system:String>
+    
+    <!-- Warning messages -->
+    <system:String x:Key="Warning_NoMediaSelected">No media file selected</system:String>
+    <system:String x:Key="Warning_InvalidInput">Invalid input</system:String>
+    <system:String x:Key="Warning_OperationFailed">Operation failed</system:String>
+    <system:String x:Key="Warning_FileNotFound">File not found</system:String>
+    <system:String x:Key="Warning_OutputDimensionNotEven">Warning: Output dimensions are not even (after considering crop and border). Some encoders may require even dimensions.</system:String>
+    
+    <!-- Media page - Toolbar buttons -->
+    <system:String x:Key="Media_Button_AddFile">Add File</system:String>
+    <system:String x:Key="Media_Button_AddFolder">Add Folder</system:String>
+    <system:String x:Key="Media_Button_Remove">Remove</system:String>
+    <system:String x:Key="Media_Button_Clear">Clear</system:String>
+    
+    <!-- Media page - List headers -->
+    <system:String x:Key="Media_Header_Name">Name</system:String>
+    <system:String x:Key="Media_Header_Format">Format</system:String>
+    <system:String x:Key="Media_Header_Size">Size</system:String>
+    <system:String x:Key="Media_Header_Duration">Duration</system:String>
+    <system:String x:Key="Media_Header_Resolution">Resolution</system:String>
+    
+    <!-- Media page - Placeholder text -->
+    <system:String x:Key="Media_Placeholder_Thumbnail">Thumbnail</system:String>
+    <system:String x:Key="Media_Placeholder_Loading">Loading...</system:String>
+    <system:String x:Key="Media_Placeholder_NoPreview">No Preview</system:String>
+    <system:String x:Key="Media_Placeholder_NoMedia">No Media Selected</system:String>
+    
+    <!-- Media page - Detail panel headers -->
+    <system:String x:Key="Media_Detail_ContainerInfo">Container Info</system:String>
+    <system:String x:Key="Media_Detail_VideoStream">Video Stream</system:String>
+    <system:String x:Key="Media_Detail_AudioStream">Audio Stream</system:String>
+    <system:String x:Key="Media_Detail_Subtitles">Subtitles</system:String>
+    <system:String x:Key="Media_Detail_Metadata">Metadata</system:String>
+    
+    <!-- Media page - Detail panel labels -->
+    <system:String x:Key="Media_Label_FileName">File Name:</system:String>
+    <system:String x:Key="Media_Label_FilePath">File Path:</system:String>
+    <system:String x:Key="Media_Label_FileSize">File Size:</system:String>
+    <system:String x:Key="Media_Label_FileFormat">File Format:</system:String>
+    <system:String x:Key="Media_Label_Duration">Duration:</system:String>
+    <system:String x:Key="Media_Label_OverallBitrate">Overall Bitrate:</system:String>
+    
+    <!-- Backend support -->
+    <system:String x:Key="Backend_FFmpeg">FFmpeg</system:String>
+    <system:String x:Key="Backend_VapourSynth">VapourSynth</system:String>
+    
+    <!-- Video encoders -->
+    <system:String x:Key="VideoEncoder_H264_x264">H.264 (x264)</system:String>
+    <system:String x:Key="VideoEncoder_H265_x265">H.265 (x265)</system:String>
+    <system:String x:Key="VideoEncoder_Copy">Copy</system:String>
+    
+    <!-- Preset labels -->
+    <system:String x:Key="VideoEncoder_Preset_ultrafast">Ultrafast</system:String>
+    <system:String x:Key="VideoEncoder_Preset_superfast">Superfast</system:String>
+    <system:String x:Key="VideoEncoder_Preset_veryfast">Very Fast</system:String>
+    <system:String x:Key="VideoEncoder_Preset_faster">Faster</system:String>
+    <system:String x:Key="VideoEncoder_Preset_fast">Fast</system:String>
+    <system:String x:Key="VideoEncoder_Preset_medium">Medium</system:String>
+    <system:String x:Key="VideoEncoder_Preset_slow">Slow</system:String>
+    <system:String x:Key="VideoEncoder_Preset_slower">Slower</system:String>
+    <system:String x:Key="VideoEncoder_Preset_veryslow">Very Slow</system:String>
+    <system:String x:Key="VideoEncoder_Preset_placebo">Placebo</system:String>
+    
+    <!-- ProRes Presets -->
+    <system:String x:Key="VideoEncoder_Preset_proxy">Proxy</system:String>
+    <system:String x:Key="VideoEncoder_Preset_lt">LT</system:String>
+    <system:String x:Key="VideoEncoder_Preset_standard">Standard</system:String>
+    <system:String x:Key="VideoEncoder_Preset_hq">HQ</system:String>
+    <system:String x:Key="VideoEncoder_Preset_4444">4444</system:String>
+    <system:String x:Key="VideoEncoder_Preset_4444xq">4444 XQ</system:String>
+
+    <!-- Preset range labels -->
+    <system:String x:Key="VideoEncoder_Preset_Fast">Fast</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Slow">Slow</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_X264">Ultrafast</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_X264">Placebo</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_X265">Ultrafast</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_X265">Placebo</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_NVENC">Fast</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_NVENC">Slow</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_QSV">Fast</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_QSV">Slow</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_AV1">Fast</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_AV1">Slow</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_VP9">Fast</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_VP9">Slow</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_ProRes">Low Quality</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_ProRes">High Quality</system:String>
+    <system:String x:Key="Media_Label_Codec">Codec:</system:String>
+    <system:String x:Key="Media_Label_Resolution">Resolution:</system:String>
+    <system:String x:Key="Media_Label_FrameRate">Frame Rate:</system:String>
+    <system:String x:Key="Media_Label_Profile">Profile:</system:String>
+    <system:String x:Key="Media_Label_Level">Level:</system:String>
+    <system:String x:Key="Media_Label_BitDepth">Bit Depth:</system:String>
+    <system:String x:Key="Media_Label_Bitrate">Bitrate:</system:String>
+    <system:String x:Key="Media_Label_SampleRate">Sample Rate:</system:String>
+    
+    <!-- Welcome page -->
+    <system:String x:Key="Welcome_Title">Welcome to Cascade</system:String>
+    <system:String x:Key="Welcome_Instruction1">1. Create VPD and disc collection features.</system:String>
+    <system:String x:Key="Welcome_Instruction2">2. Use this to start with disc collection.</system:String>
+    
+    <!-- Operations page -->
+    <system:String x:Key="Operations_Title">Operations</system:String>
+    <system:String x:Key="Operations_PresetManagement">Preset Management</system:String>
+    <system:String x:Key="Operations_AddAsPreset">Add as Preset</system:String>
+    <system:String x:Key="Operations_Welcome">Welcome to Operations</system:String>
+    <system:String x:Key="Operations_SelectSubPage">Please select an operation sub-page from the left</system:String>
+    <system:String x:Key="Operations_RegisteredGroups">Registered groups:</system:String>
+    <system:String x:Key="Operations_NoSubPages">No sub-pages</system:String>
+    
+    <!-- Preset Management -->
+    <system:String x:Key="PresetManagement_Title">Preset Management</system:String>
+    <system:String x:Key="PresetManagement_AvailablePresets">Available Presets</system:String>
+    <system:String x:Key="PresetManagement_Load">Load</system:String>
+    <system:String x:Key="PresetManagement_Delete">Delete</system:String>
+    <system:String x:Key="PresetManagement_Refresh">Refresh</system:String>
+    <system:String x:Key="PresetManagement_SaveCurrent">Save Current Configuration as Preset</system:String>
+    <system:String x:Key="PresetManagement_Save">Save</system:String>
+    <system:String x:Key="PresetManagement_EmptyName">Preset name cannot be empty</system:String>
+    <system:String x:Key="PresetManagement_SaveSuccess">Preset "{0}" saved successfully</system:String>
+    <system:String x:Key="PresetManagement_SaveFailed">Failed to save preset</system:String>
+    <system:String x:Key="PresetManagement_LoadSuccess">Preset "{0}" loaded successfully</system:String>
+    <system:String x:Key="PresetManagement_LoadFailed">Failed to load preset</system:String>
+    <system:String x:Key="PresetManagement_DeleteSuccess">Preset "{0}" deleted successfully</system:String>
+    <system:String x:Key="PresetManagement_DeleteFailed">Failed to delete preset</system:String>
+    <system:String x:Key="PresetManagement_PresetsCount">{0} preset(s) available</system:String>
+    
+    <!-- Operations page - Group names -->
+    <system:String x:Key="Operations_Group_CascadeIO">Cascade Input/Output</system:String>
+    <system:String x:Key="Operations_Group_FFmpeg">FFmpeg</system:String>
+    <system:String x:Key="Operations_Group_VapourSynth">VapourSynth</system:String>
+    
+    <!-- Operations page - Sub-page names -->
+    <system:String x:Key="Operations_SubPage_NamingOutput">Naming and Output</system:String>
+    <system:String x:Key="Operations_SubPage_SizeLayout">Size and Layout</system:String>
+    <system:String x:Key="Operations_SubPage_VideoEncoderStrategy">Encoder (Video) (Strategy)</system:String>
+    <system:String x:Key="Operations_SubPage_MuxingDelivery">Muxing and Delivery</system:String>
+    
+    <!-- Naming and Output page -->
+    <system:String x:Key="NamingOutput_OutputMode">Output Mode</system:String>
+    <system:String x:Key="NamingOutput_OutputToSpecifiedDir">Output to Specified Directory</system:String>
+    <system:String x:Key="NamingOutput_OutputToSourceFolder">Output to Source Folder</system:String>
+    <system:String x:Key="NamingOutput_OutputToSubDir">Output to Source Subdirectory</system:String>
+    <system:String x:Key="NamingOutput_CloneSourceStructure">Clone Source Folder Structure</system:String>
+    <system:String x:Key="NamingOutput_OutputPath">Output Path</system:String>
+    <system:String x:Key="NamingOutput_Browse">Browse...</system:String>
+    <system:String x:Key="NamingOutput_BrowseTitle">Select Output Folder</system:String>
+    <system:String x:Key="NamingOutput_SubdirectoryName">Subdirectory Name</system:String>
+    <system:String x:Key="NamingOutput_OutputName">Output Name</system:String>
+    <system:String x:Key="NamingOutput_NamingTemplate">Naming Template</system:String>
+    <system:String x:Key="NamingOutput_Reserved">(Reserved)</system:String>
+    <system:String x:Key="NamingOutput_ConflictHandling">When filename conflict occurs...</system:String>
+    <system:String x:Key="NamingOutput_Rename">Rename</system:String>
+    <system:String x:Key="NamingOutput_Skip">Skip</system:String>
+    <system:String x:Key="NamingOutput_AddNumericSuffix">Add Numeric Suffix</system:String>
+    <system:String x:Key="NamingOutput_AddTimestampSuffix">Add Timestamp Suffix</system:String>
+    <system:String x:Key="NamingOutput_AddCustomSuffix">Add Custom Suffix</system:String>
+    <system:String x:Key="NamingOutput_Overwrite">Overwrite</system:String>
+    <system:String x:Key="NamingOutput_Suffix">Suffix</system:String>
+    <system:String x:Key="NamingOutput_ConflictResolution">Conflict Resolution</system:String>
+    
+    <!-- Video Encoder Strategy page -->
+    <system:String x:Key="VideoEncoder_Encoder">Encoder</system:String>
+    <system:String x:Key="VideoEncoder_CopyInputStream">Copy Input Stream</system:String>
+    <system:String x:Key="VideoEncoder_Uncompressed">Uncompressed</system:String>
+    <system:String x:Key="VideoEncoder_Encoding">Encoding</system:String>
+    <system:String x:Key="VideoEncoder_Preset">Preset</system:String>
+    <system:String x:Key="VideoEncoder_Tune">Tune</system:String>
+    <system:String x:Key="VideoEncoder_Profile">Profile</system:String>
+    <system:String x:Key="VideoEncoder_PixelFormat">Pixel Format</system:String>
+    <system:String x:Key="VideoEncoder_Level">Level</system:String>
+    <system:String x:Key="VideoEncoder_Auto">Auto</system:String>
+    <system:String x:Key="VideoEncoder_RateAndQuality">Rate and Quality</system:String>
+    <system:String x:Key="VideoEncoder_Mode">Mode</system:String>
+    <system:String x:Key="VideoEncoder_CRF">CRF (Constant Quality)</system:String>
+    <system:String x:Key="VideoEncoder_TwoPassTargetBitrate">Two-Pass Target Bitrate</system:String>
+    <system:String x:Key="VideoEncoder_CBR">Target Bitrate (CBR)</system:String>
+    <system:String x:Key="VideoEncoder_ABR">ABR (Average Bitrate)</system:String>
+    <system:String x:Key="VideoEncoder_CQP">CQP (Constant QP)</system:String>
+    <system:String x:Key="VideoEncoder_CRFValue">CRF Value</system:String>
+    <system:String x:Key="VideoEncoder_CRFHint">Default: {0} (Lower value = higher quality, larger file)</system:String>
+    <system:String x:Key="VideoEncoder_TargetBitrate">Target Bitrate</system:String>
+    <system:String x:Key="VideoEncoder_HardwareCQP">Hardware CQP (Hardware encoders only)</system:String>
+    
+    <!-- Tune Options -->
+    <system:String x:Key="VideoEncoder_Tune_None">None</system:String>
+    <system:String x:Key="VideoEncoder_Tune_Film">Film</system:String>
+    <system:String x:Key="VideoEncoder_Tune_Animation">Animation</system:String>
+    <system:String x:Key="VideoEncoder_Tune_Grain">Grain</system:String>
+    <system:String x:Key="VideoEncoder_Tune_Stillimage">Still Image</system:String>
+    <system:String x:Key="VideoEncoder_Tune_Fastdecode">Fast Decode</system:String>
+    <system:String x:Key="VideoEncoder_Tune_Zerolatency">Zero Latency</system:String>
+    <system:String x:Key="VideoEncoder_Tune_PSNR">PSNR</system:String>
+    <system:String x:Key="VideoEncoder_Tune_SSIM">SSIM</system:String>
+
+    <!-- Size and Layout page -->
+    <system:String x:Key="SizeLayout_OutputSize">Output Size</system:String>
+    <system:String x:Key="SizeLayout_SameAsSource">Same as Source</system:String>
+    <system:String x:Key="SizeLayout_Custom">Custom</system:String>
+    <system:String x:Key="SizeLayout_Width">Width</system:String>
+    <system:String x:Key="SizeLayout_Height">Height</system:String>
+    <system:String x:Key="SizeLayout_OutputScale">Output Scale</system:String>
+    <system:String x:Key="SizeLayout_ScaleAuto">Auto</system:String>
+    <system:String x:Key="SizeLayout_Scale_1_1">1:1 (Square)</system:String>
+    <system:String x:Key="SizeLayout_Scale_4_3">4:3 (Standard)</system:String>
+    <system:String x:Key="SizeLayout_Scale_16_9">16:9 (Widescreen)</system:String>
+    <system:String x:Key="SizeLayout_Scale_21_9">21:9 (Ultrawide)</system:String>
+    <system:String x:Key="SizeLayout_Scale_235_1">2.35:1 (Cinematic)</system:String>
+    <system:String x:Key="SizeLayout_Scale_239_1">2.39:1 (Anamorphic)</system:String>
+    <system:String x:Key="SizeLayout_ScaleCustom">Custom Scale</system:String>
+    <system:String x:Key="SizeLayout_Anamorphic">Anamorphic</system:String>
+    <system:String x:Key="SizeLayout_Square">Square</system:String>
+    <system:String x:Key="SizeLayout_Rotation">Rotation</system:String>
+    <system:String x:Key="SizeLayout_FlipHorizontal">Flip Horizontal</system:String>
+    <system:String x:Key="SizeLayout_FlipVertical">Flip Vertical</system:String>
+    <system:String x:Key="SizeLayout_CurrentAngle">Current Angle:</system:String>
+    <system:String x:Key="SizeLayout_RotateTo">Rotate To...</system:String>
+    <system:String x:Key="SizeLayout_RotateToHint">(Only effective when normal rotation has no effect)</system:String>
+    <system:String x:Key="SizeLayout_FullVertical">Full Vertical</system:String>
+    <system:String x:Key="SizeLayout_FullHorizontal">Full Horizontal</system:String>
+    <system:String x:Key="SizeLayout_None">None</system:String>
+    <system:String x:Key="SizeLayout_Crop">Crop</system:String>
+    <system:String x:Key="SizeLayout_AutoCrop">Auto</system:String>
+    <system:String x:Key="SizeLayout_Border">Border</system:String>
+    <system:String x:Key="SizeLayout_Black">Black</system:String>
+    <system:String x:Key="SizeLayout_White">White</system:String>
+    <system:String x:Key="SizeLayout_Gray">Gray</system:String>
+    <system:String x:Key="SizeLayout_Transparent">Transparent</system:String>
+    
+    <!-- Muxing and Delivery page -->
+    <system:String x:Key="MuxingDelivery_Title">Muxing and Delivery</system:String>
+    <system:String x:Key="MuxingDelivery_FormatContainer">Format and Container</system:String>
+    <system:String x:Key="MuxingDelivery_WebOptimized">Web Optimized</system:String>
+    <system:String x:Key="MuxingDelivery_HeaderCompression">Header Compression</system:String>
+    
+    <!-- Video encoder names -->
+    <!-- H.264 encoders -->
+    <system:String x:Key="VideoEncoder_x264">x264</system:String>
+    <system:String x:Key="VideoEncoder_NVENC_H264">NVENC H.264</system:String>
+    <system:String x:Key="VideoEncoder_QSV_H264">QSV H.264</system:String>
+    <system:String x:Key="VideoEncoder_AMF_H264">AMF H.264</system:String>
+    <system:String x:Key="VideoEncoder_VideoToolbox_H264">VideoToolbox H.264</system:String>
+    
+    <!-- H.265 encoders -->
+    <system:String x:Key="VideoEncoder_x265">x265</system:String>
+    <system:String x:Key="VideoEncoder_NVENC_HEVC">NVENC HEVC</system:String>
+    <system:String x:Key="VideoEncoder_QSV_HEVC">QSV HEVC</system:String>
+    <system:String x:Key="VideoEncoder_AMF_HEVC">AMF HEVC</system:String>
+    <system:String x:Key="VideoEncoder_VideoToolbox_HEVC">VideoToolbox HEVC</system:String>
+    
+    <!-- H.266 encoders -->
+    <system:String x:Key="VideoEncoder_vvenc">vvenc</system:String>
+    
+    <!-- AV1 encoders -->
+    <system:String x:Key="VideoEncoder_libaomav1">libaom-av1</system:String>
+    <system:String x:Key="VideoEncoder_libsvtav1">libsvtav1</system:String>
+    <system:String x:Key="VideoEncoder_librav1e">librav1e</system:String>
+    <system:String x:Key="VideoEncoder_NVENC_AV1">NVENC AV1</system:String>
+    <system:String x:Key="VideoEncoder_QSV_AV1">QSV AV1</system:String>
+    <system:String x:Key="VideoEncoder_AMF_AV1">AMF AV1</system:String>
+    
+    <!-- VP9 encoders -->
+    <system:String x:Key="VideoEncoder_libvpxvp9">libvpx-vp9</system:String>
+    
+    <!-- ProRes encoders -->
+    <system:String x:Key="VideoEncoder_prores_ks">prores_ks</system:String>
+    <system:String x:Key="VideoEncoder_prores_aw">prores_aw</system:String>
+    
+    <!-- Uncompressed encoders -->
+    <system:String x:Key="VideoEncoder_rawvideo">rawvideo</system:String>
+    <system:String x:Key="VideoEncoder_ffv1">ffv1</system:String>
+    <system:String x:Key="VideoEncoder_huffyuv">huffyuv</system:String>
+    
+    <!-- Copy stream -->
+    <system:String x:Key="VideoEncoder_copy">Copy</system:String>
+    
+    <!-- Tasks page -->
+    <system:String x:Key="Tasks_MediaList">Media List</system:String>
+    <system:String x:Key="Tasks_NoMedia">No Media Files</system:String>
+    <system:String x:Key="Tasks_SelectedMedia">Media List</system:String>
+    <system:String x:Key="Tasks_NoMediaSelected">No Media</system:String>
+    <system:String x:Key="Tasks_OperationSettings">Operation Settings</system:String>
+    <system:String x:Key="Tasks_Backend">Backend</system:String>
+    <system:String x:Key="Tasks_OutputPath">Output Path</system:String>
+    <system:String x:Key="Tasks_VideoEncoder">Video Encoder</system:String>
+    <system:String x:Key="Tasks_VideoMode">Encoding Mode</system:String>
+    <system:String x:Key="Tasks_OutputSize">Output Size</system:String>
+    <system:String x:Key="Tasks_OutputFormat">Output Format</system:String>
+    <system:String x:Key="Tasks_CommandPreview">Command Preview</system:String>
+    <system:String x:Key="Tasks_CopyCommand">Copy Command</system:String>
+    <system:String x:Key="Tasks_RefreshPreview">Refresh Preview</system:String>
+    <system:String x:Key="Tasks_AddToQueue">Add to Queue</system:String>
+    <system:String x:Key="Tasks_NoValidTasks">No valid tasks to add</system:String>
+    <system:String x:Key="Tasks_AddToQueueError">Error adding to queue</system:String>
+    <system:String x:Key="Tasks_NotSet">Not Set</system:String>
+    <system:String x:Key="Tasks_StreamCopy">Stream Copy</system:String>
+    <system:String x:Key="Tasks_Encode">Encode</system:String>
+    <system:String x:Key="Tasks_SameAsSource">Same as Source</system:String>
+    <system:String x:Key="Tasks_Preset">Preset</system:String>
+    <system:String x:Key="Tasks_RateMode">Rate Mode</system:String>
+    <system:String x:Key="Tasks_Bitrate">Bitrate</system:String>
+    <system:String x:Key="Tasks_Filters">Filters</system:String>
+    <system:String x:Key="Tasks_Filter_Scale">Scale</system:String>
+    <system:String x:Key="Tasks_Filter_Crop">Crop</system:String>
+    <system:String x:Key="Tasks_Filter_FlipH">Flip Horizontal</system:String>
+    <system:String x:Key="Tasks_Filter_FlipV">Flip Vertical</system:String>
+    <system:String x:Key="Tasks_Filter_Rotate">Rotate</system:String>
+    <system:String x:Key="Tasks_NoConfiguration">No configuration available</system:String>
+    <system:String x:Key="Tasks_ConfigureInOperations">Please configure settings in the Operations page</system:String>
+    <system:String x:Key="Tasks_NoCommandBuilder">Command builder not found</system:String>
+    <system:String x:Key="Tasks_ConfigureBackend">Please configure backend and encoder in the Operations page</system:String>
+    <system:String x:Key="Tasks_PreviewError">Error generating preview</system:String>
+    <system:String x:Key="Tasks_Uncompressed">Uncompressed</system:String>
+    <system:String x:Key="Tasks_Unknown">Unknown</system:String>
+
+    <!-- Queue Page -->
+    <system:String x:Key="Queue_Button_Start">Start/Pause</system:String>
+    <system:String x:Key="Queue_Button_Pause">Pause</system:String>
+    <system:String x:Key="Queue_Button_MoveUp">Move Up</system:String>
+    <system:String x:Key="Queue_Button_MoveDown">Move Down</system:String>
+    <system:String x:Key="Queue_Button_Remove">Cancel</system:String>
+    <system:String x:Key="Queue_Button_ClearCompleted">Clear Completed</system:String>
+    <system:String x:Key="Queue_Button_Settings">Set Priority</system:String>
+    
+    <system:String x:Key="Queue_Header_Preview">Preview</system:String>
+    <system:String x:Key="Queue_Header_Name">Name</system:String>
+    <system:String x:Key="Queue_Header_Status">Status</system:String>
+    <system:String x:Key="Queue_Header_Progress">Progress</system:String>
+    <system:String x:Key="Queue_Header_Format">Format</system:String>
+    <system:String x:Key="Queue_Header_Size">Size</system:String>
+    <system:String x:Key="Queue_Header_Duration">Est. Time Remaining</system:String>
+    
+    <system:String x:Key="Queue_Placeholder_NoPreview">No Preview</system:String>
+    
+    <system:String x:Key="Queue_Status_Waiting">Waiting</system:String>
+    <system:String x:Key="Queue_Status_Processing">Processing</system:String>
+    <system:String x:Key="Queue_Status_Completed">Completed</system:String>
+    <system:String x:Key="Queue_Status_Failed">Failed</system:String>
+    <system:String x:Key="Queue_Status_Paused">Paused</system:String>
+    
+    <system:String x:Key="Queue_Started">Queue Started</system:String>
+    <system:String x:Key="Queue_Paused">Queue Paused</system:String>
+    <system:String x:Key="Queue_TaskCompleted">Task Completed</system:String>
+    <system:String x:Key="Queue_TaskFailed">Task Failed</system:String>
+    <system:String x:Key="Queue_TasksAdded">Tasks Added</system:String>
+    <system:String x:Key="Queue_TasksRemoved">{0} task(s) removed</system:String>
+    
+    <system:String x:Key="Queue_ConfirmRemove_Single">Are you sure you want to remove this task from the queue?</system:String>
+    <system:String x:Key="Queue_ConfirmRemove_Multiple">Are you sure you want to remove {0} tasks from the queue?</system:String>
+    <system:String x:Key="Queue_ConfirmRemove_Title">Confirm Removal</system:String>
+    <system:String x:Key="Queue_EstimatedRemaining">Est. Remaining</system:String>
+    
+</ResourceDictionary>
+    
+</ResourceDictionary>

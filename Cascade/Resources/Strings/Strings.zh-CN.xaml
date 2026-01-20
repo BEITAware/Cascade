@@ -1,0 +1,376 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    
+    <!-- 应用程序级别 -->
+    <system:String x:Key="App_Title">Cascade</system:String>
+    
+    <!-- 标签页名称 -->
+    <system:String x:Key="Tab_Media">媒体</system:String>
+    <system:String x:Key="Tab_Operations">操作</system:String>
+    <system:String x:Key="Tab_Tasks">任务</system:String>
+    <system:String x:Key="Tab_Queue">队列</system:String>
+    
+    <!-- 状态栏 -->
+    <system:String x:Key="Status_Label">消息</system:String>
+    <system:String x:Key="Status_Message">就绪</system:String>
+    <system:String x:Key="Status_Ready">就绪</system:String>
+    
+    <!-- 通知消息 -->
+    <system:String x:Key="Notification_FileSaved">文件已保存</system:String>
+    <system:String x:Key="Notification_OperationComplete">操作完成</system:String>
+    <system:String x:Key="Notification_ProcessingStarted">处理已开始</system:String>
+    
+    <!-- 警告消息 -->
+    <system:String x:Key="Warning_NoMediaSelected">未选择媒体文件</system:String>
+    <system:String x:Key="Warning_InvalidInput">输入无效</system:String>
+    <system:String x:Key="Warning_OperationFailed">操作失败</system:String>
+    <system:String x:Key="Warning_FileNotFound">找不到文件</system:String>
+    <system:String x:Key="Warning_OutputDimensionNotEven">警告：输出尺寸不是偶数（考虑裁切和边框后）。某些编码器可能需要偶数尺寸。</system:String>
+    
+    <!-- 媒体页面 - 工具栏按钮 -->
+    <system:String x:Key="Media_Button_AddFile">添加文件</system:String>
+    <system:String x:Key="Media_Button_AddFolder">添加文件夹</system:String>
+    <system:String x:Key="Media_Button_Remove">删除</system:String>
+    <system:String x:Key="Media_Button_Clear">清空</system:String>
+    
+    <!-- 媒体页面 - 列表表头 -->
+    <system:String x:Key="Media_Header_Name">名称</system:String>
+    <system:String x:Key="Media_Header_Format">格式</system:String>
+    <system:String x:Key="Media_Header_Size">大小</system:String>
+    <system:String x:Key="Media_Header_Duration">持续时间</system:String>
+    <system:String x:Key="Media_Header_Resolution">分辨率</system:String>
+    
+    <!-- 媒体页面 - 占位符文本 -->
+    <system:String x:Key="Media_Placeholder_Thumbnail">缩略图</system:String>
+    <system:String x:Key="Media_Placeholder_Loading">加载中...</system:String>
+    <system:String x:Key="Media_Placeholder_NoPreview">无预览</system:String>
+    <system:String x:Key="Media_Placeholder_NoMedia">未选择媒体</system:String>
+    
+    <!-- 媒体页面 - 详情面板标题 -->
+    <system:String x:Key="Media_Detail_ContainerInfo">容器信息</system:String>
+    <system:String x:Key="Media_Detail_VideoStream">视频流</system:String>
+    <system:String x:Key="Media_Detail_AudioStream">音频流</system:String>
+    <system:String x:Key="Media_Detail_Subtitles">字幕</system:String>
+    <system:String x:Key="Media_Detail_Metadata">元数据</system:String>
+    
+    <!-- 媒体页面 - 详情面板标签 -->
+    <system:String x:Key="Media_Label_FileName">文件名称：</system:String>
+    <system:String x:Key="Media_Label_FilePath">文件路径：</system:String>
+    <system:String x:Key="Media_Label_FileSize">文件大小：</system:String>
+    <system:String x:Key="Media_Label_FileFormat">文件格式：</system:String>
+    <system:String x:Key="Media_Label_Duration">持续时间：</system:String>
+    <system:String x:Key="Media_Label_OverallBitrate">总体码率：</system:String>
+    
+    <!-- 后端支持 -->
+    <system:String x:Key="Backend_FFmpeg">FFmpeg</system:String>
+    <system:String x:Key="Backend_VapourSynth">VapourSynth</system:String>
+    
+    <!-- 视频编码器 -->
+    <system:String x:Key="VideoEncoder_H264_x264">H.264 (x264)</system:String>
+    <system:String x:Key="VideoEncoder_H265_x265">H.265 (x265)</system:String>
+    <system:String x:Key="VideoEncoder_Copy">复制</system:String>
+    
+    <!-- 预设标签 -->
+    <system:String x:Key="VideoEncoder_Preset_ultrafast">极快</system:String>
+    <system:String x:Key="VideoEncoder_Preset_superfast">超快</system:String>
+    <system:String x:Key="VideoEncoder_Preset_veryfast">非常快</system:String>
+    <system:String x:Key="VideoEncoder_Preset_faster">较快</system:String>
+    <system:String x:Key="VideoEncoder_Preset_fast">快</system:String>
+    <system:String x:Key="VideoEncoder_Preset_medium">中等</system:String>
+    <system:String x:Key="VideoEncoder_Preset_slow">慢</system:String>
+    <system:String x:Key="VideoEncoder_Preset_slower">较慢</system:String>
+    <system:String x:Key="VideoEncoder_Preset_veryslow">非常慢</system:String>
+    <system:String x:Key="VideoEncoder_Preset_placebo">极慢</system:String>
+    
+    <!-- ProRes 预设 -->
+    <system:String x:Key="VideoEncoder_Preset_proxy">代理 (Proxy)</system:String>
+    <system:String x:Key="VideoEncoder_Preset_lt">轻量 (LT)</system:String>
+    <system:String x:Key="VideoEncoder_Preset_standard">标准 (Standard)</system:String>
+    <system:String x:Key="VideoEncoder_Preset_hq">高质量 (HQ)</system:String>
+    <system:String x:Key="VideoEncoder_Preset_4444">4444</system:String>
+    <system:String x:Key="VideoEncoder_Preset_4444xq">4444 XQ</system:String>
+
+    <!-- 预设范围标签 -->
+    <system:String x:Key="VideoEncoder_Preset_Fast">快速</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Slow">慢速</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_X264">极快</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_X264">极慢</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_X265">极快</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_X265">极慢</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_NVENC">快速</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_NVENC">慢速</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_QSV">快速</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_QSV">慢速</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_AV1">快速</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_AV1">慢速</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_VP9">快速</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_VP9">慢速</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Min_ProRes">低质量</system:String>
+    <system:String x:Key="VideoEncoder_Preset_Max_ProRes">高质量</system:String>
+    <system:String x:Key="Media_Label_Codec">编码器：</system:String>
+    <system:String x:Key="Media_Label_Resolution">分辨率：</system:String>
+    <system:String x:Key="Media_Label_FrameRate">帧率：</system:String>
+    <system:String x:Key="Media_Label_Profile">Profile：</system:String>
+    <system:String x:Key="Media_Label_Level">Level：</system:String>
+    <system:String x:Key="Media_Label_BitDepth">量化精度：</system:String>
+    <system:String x:Key="Media_Label_Bitrate">比特率：</system:String>
+    <system:String x:Key="Media_Label_SampleRate">采样率：</system:String>
+    
+    <!-- 欢迎页面 -->
+    <system:String x:Key="Welcome_Title">欢迎使用 Cascade</system:String>
+    <system:String x:Key="Welcome_Instruction1">人性化与用户友好的视频解码与封装应用程序</system:String>
+    <system:String x:Key="Welcome_Instruction2">不加妥协的强大功能</system:String>
+    
+    <!-- 操作页面 -->
+    <system:String x:Key="Operations_Title">操作模块</system:String>
+    <system:String x:Key="Operations_PresetManagement">预设管理</system:String>
+    <system:String x:Key="Operations_AddAsPreset">添加为预设</system:String>
+    <system:String x:Key="Operations_Welcome">欢迎使用操作模块</system:String>
+    <system:String x:Key="Operations_SelectSubPage">请从左侧选择一个操作子页面开始</system:String>
+    <system:String x:Key="Operations_RegisteredGroups">当前已注册的分组：</system:String>
+    <system:String x:Key="Operations_NoSubPages">暂无子页面</system:String>
+    
+    <!-- 预设管理 -->
+    <system:String x:Key="PresetManagement_Title">预设管理</system:String>
+    <system:String x:Key="PresetManagement_AvailablePresets">可用预设</system:String>
+    <system:String x:Key="PresetManagement_Load">加载</system:String>
+    <system:String x:Key="PresetManagement_Delete">删除</system:String>
+    <system:String x:Key="PresetManagement_Refresh">刷新</system:String>
+    <system:String x:Key="PresetManagement_SaveCurrent">保存当前配置为预设</system:String>
+    <system:String x:Key="PresetManagement_Save">保存</system:String>
+    <system:String x:Key="PresetManagement_EmptyName">预设名称不能为空</system:String>
+    <system:String x:Key="PresetManagement_SaveSuccess">预设 "{0}" 已成功保存</system:String>
+    <system:String x:Key="PresetManagement_SaveFailed">保存预设失败</system:String>
+    <system:String x:Key="PresetManagement_LoadSuccess">预设 "{0}" 已成功加载</system:String>
+    <system:String x:Key="PresetManagement_LoadFailed">加载预设失败</system:String>
+    <system:String x:Key="PresetManagement_DeleteSuccess">预设 "{0}" 已成功删除</system:String>
+    <system:String x:Key="PresetManagement_DeleteFailed">删除预设失败</system:String>
+    <system:String x:Key="PresetManagement_PresetsCount">共 {0} 个预设</system:String>
+    
+    <!-- 操作页面 - 分组名称 -->
+    <system:String x:Key="Operations_Group_CascadeIO">Cascade 输入与输出</system:String>
+    <system:String x:Key="Operations_Group_FFmpeg">FFmpeg</system:String>
+    <system:String x:Key="Operations_Group_VapourSynth">VapourSynth</system:String>
+    
+    <!-- 操作页面 - 子页面名称 -->
+    <system:String x:Key="Operations_SubPage_NamingOutput">命名与输出</system:String>
+    <system:String x:Key="Operations_SubPage_SizeLayout">尺寸与布局</system:String>
+    <system:String x:Key="Operations_SubPage_VideoEncoderStrategy">编码器（视频）（策略）</system:String>
+    <system:String x:Key="Operations_SubPage_MuxingDelivery">封装与交付</system:String>
+    
+    <!-- 命名与输出页面 -->
+    <system:String x:Key="NamingOutput_OutputMode">输出模式</system:String>
+    <system:String x:Key="NamingOutput_OutputToSpecifiedDir">输出到指定目录</system:String>
+    <system:String x:Key="NamingOutput_OutputToSourceFolder">输出到源文件夹</system:String>
+    <system:String x:Key="NamingOutput_OutputToSubDir">输出到源文件夹子目录</system:String>
+    <system:String x:Key="NamingOutput_CloneSourceStructure">克隆源文件夹结构</system:String>
+    <system:String x:Key="NamingOutput_OutputPath">输出路径</system:String>
+    <system:String x:Key="NamingOutput_Browse">浏览...</system:String>
+    <system:String x:Key="NamingOutput_BrowseTitle">选择输出文件夹</system:String>
+    <system:String x:Key="NamingOutput_SubdirectoryName">子目录名称</system:String>
+    <system:String x:Key="NamingOutput_OutputName">输出名称</system:String>
+    <system:String x:Key="NamingOutput_NamingTemplate">命名模板</system:String>
+    <system:String x:Key="NamingOutput_Reserved">（预留功能）</system:String>
+    <system:String x:Key="NamingOutput_ConflictHandling">当发生文件名冲突...</system:String>
+    <system:String x:Key="NamingOutput_Rename">重命名</system:String>
+    <system:String x:Key="NamingOutput_Skip">跳过</system:String>
+    <system:String x:Key="NamingOutput_AddNumericSuffix">添加数字后缀</system:String>
+    <system:String x:Key="NamingOutput_AddTimestampSuffix">添加时间戳后缀</system:String>
+    <system:String x:Key="NamingOutput_AddCustomSuffix">添加自定义后缀</system:String>
+    <system:String x:Key="NamingOutput_Overwrite">覆盖</system:String>
+    <system:String x:Key="NamingOutput_Suffix">后缀</system:String>
+    <system:String x:Key="NamingOutput_ConflictResolution">冲突处理</system:String>
+    
+    <!-- 视频编码器策略页面 -->
+    <system:String x:Key="VideoEncoder_Encoder">编码器</system:String>
+    <system:String x:Key="VideoEncoder_CopyInputStream">复制输入流</system:String>
+    <system:String x:Key="VideoEncoder_Uncompressed">无压缩</system:String>
+    <system:String x:Key="VideoEncoder_Encoding">编码</system:String>
+    <system:String x:Key="VideoEncoder_Preset">预设</system:String>
+    <system:String x:Key="VideoEncoder_Tune">微调</system:String>
+    <system:String x:Key="VideoEncoder_Profile">配置文件 (Profile)</system:String>
+    <system:String x:Key="VideoEncoder_PixelFormat">像素格式</system:String>
+    <system:String x:Key="VideoEncoder_Level">等级 (Level)</system:String>
+    <system:String x:Key="VideoEncoder_Auto">自动</system:String>
+    <system:String x:Key="VideoEncoder_RateAndQuality">码率与质量</system:String>
+    <system:String x:Key="VideoEncoder_Mode">模式</system:String>
+    <system:String x:Key="VideoEncoder_CRF">CRF (恒定质量)</system:String>
+    <system:String x:Key="VideoEncoder_TwoPassTargetBitrate">两次编码目标码率</system:String>
+    <system:String x:Key="VideoEncoder_CBR">目标码率 (CBR)</system:String>
+    <system:String x:Key="VideoEncoder_ABR">ABR (平均码率)</system:String>
+    <system:String x:Key="VideoEncoder_CQP">CQP (恒定量化参数)</system:String>
+    <system:String x:Key="VideoEncoder_CRFValue">CRF 值</system:String>
+    <system:String x:Key="VideoEncoder_CRFHint">默认值: {0} (值越小质量越高，文件越大)</system:String>
+    <system:String x:Key="VideoEncoder_TargetBitrate">目标码率</system:String>
+    <system:String x:Key="VideoEncoder_HardwareCQP">硬件编码恒定质量参数 (仅硬件编码器)</system:String>
+    
+    <!-- 微调选项 -->
+    <system:String x:Key="VideoEncoder_Tune_None">无</system:String>
+    <system:String x:Key="VideoEncoder_Tune_Film">电影 (Film)</system:String>
+    <system:String x:Key="VideoEncoder_Tune_Animation">动画 (Animation)</system:String>
+    <system:String x:Key="VideoEncoder_Tune_Grain">颗粒感 (Grain)</system:String>
+    <system:String x:Key="VideoEncoder_Tune_Stillimage">静态图像 (Stillimage)</system:String>
+    <system:String x:Key="VideoEncoder_Tune_Fastdecode">快速解码 (Fastdecode)</system:String>
+    <system:String x:Key="VideoEncoder_Tune_Zerolatency">零延迟 (Zerolatency)</system:String>
+    <system:String x:Key="VideoEncoder_Tune_PSNR">峰值信噪比 (PSNR)</system:String>
+    <system:String x:Key="VideoEncoder_Tune_SSIM">结构相似性 (SSIM)</system:String>
+
+    <!-- 尺寸与布局页面 -->
+    <system:String x:Key="SizeLayout_OutputSize">输出尺寸</system:String>
+    <system:String x:Key="SizeLayout_SameAsSource">与源相同</system:String>
+    <system:String x:Key="SizeLayout_Custom">自定义</system:String>
+    <system:String x:Key="SizeLayout_Width">宽</system:String>
+    <system:String x:Key="SizeLayout_Height">高</system:String>
+    <system:String x:Key="SizeLayout_OutputScale">输出比例</system:String>
+    <system:String x:Key="SizeLayout_ScaleAuto">自动</system:String>
+    <system:String x:Key="SizeLayout_Scale_1_1">1:1 (正方形)</system:String>
+    <system:String x:Key="SizeLayout_Scale_4_3">4:3 (标准)</system:String>
+    <system:String x:Key="SizeLayout_Scale_16_9">16:9 (宽屏)</system:String>
+    <system:String x:Key="SizeLayout_Scale_21_9">21:9 (超宽)</system:String>
+    <system:String x:Key="SizeLayout_Scale_235_1">2.35:1 (电影)</system:String>
+    <system:String x:Key="SizeLayout_Scale_239_1">2.39:1 (电影宽屏)</system:String>
+    <system:String x:Key="SizeLayout_ScaleCustom">自定义比例</system:String>
+    <system:String x:Key="SizeLayout_Anamorphic">变形（Anamorphic）</system:String>
+    <system:String x:Key="SizeLayout_Square">正方形</system:String>
+    <system:String x:Key="SizeLayout_Rotation">旋转</system:String>
+    <system:String x:Key="SizeLayout_FlipHorizontal">水平翻转</system:String>
+    <system:String x:Key="SizeLayout_FlipVertical">垂直翻转</system:String>
+    <system:String x:Key="SizeLayout_CurrentAngle">当前角度:</system:String>
+    <system:String x:Key="SizeLayout_RotateTo">旋转至......</system:String>
+    <system:String x:Key="SizeLayout_RotateToHint">（仅在普通旋转不产生影响时生效）</system:String>
+    <system:String x:Key="SizeLayout_FullVertical">全垂直</system:String>
+    <system:String x:Key="SizeLayout_FullHorizontal">全水平</system:String>
+    <system:String x:Key="SizeLayout_None">无</system:String>
+    <system:String x:Key="SizeLayout_Crop">裁切</system:String>
+    <system:String x:Key="SizeLayout_AutoCrop">自动</system:String>
+    <system:String x:Key="SizeLayout_Border">边框</system:String>
+    <system:String x:Key="SizeLayout_Black">黑色</system:String>
+    <system:String x:Key="SizeLayout_White">白色</system:String>
+    <system:String x:Key="SizeLayout_Gray">灰色</system:String>
+    <system:String x:Key="SizeLayout_Transparent">透明</system:String>
+    
+    <!-- 封装与交付页面 -->
+    <system:String x:Key="MuxingDelivery_Title">封装与交付</system:String>
+    <system:String x:Key="MuxingDelivery_FormatContainer">格式与容器</system:String>
+    <system:String x:Key="MuxingDelivery_WebOptimized">网络优化</system:String>
+    <system:String x:Key="MuxingDelivery_HeaderCompression">头部压缩</system:String>
+    
+    <!-- 视频编码器名称 -->
+    <!-- H.264 编码器 -->
+    <system:String x:Key="VideoEncoder_x264">x264</system:String>
+    <system:String x:Key="VideoEncoder_NVENC_H264">NVENC H.264</system:String>
+    <system:String x:Key="VideoEncoder_QSV_H264">QSV H.264</system:String>
+    <system:String x:Key="VideoEncoder_AMF_H264">AMF H.264</system:String>
+    <system:String x:Key="VideoEncoder_VideoToolbox_H264">VideoToolbox H.264</system:String>
+    
+    <!-- H.265 编码器 -->
+    <system:String x:Key="VideoEncoder_x265">x265</system:String>
+    <system:String x:Key="VideoEncoder_NVENC_HEVC">NVENC HEVC</system:String>
+    <system:String x:Key="VideoEncoder_QSV_HEVC">QSV HEVC</system:String>
+    <system:String x:Key="VideoEncoder_AMF_HEVC">AMF HEVC</system:String>
+    <system:String x:Key="VideoEncoder_VideoToolbox_HEVC">VideoToolbox HEVC</system:String>
+    
+    <!-- H.266 编码器 -->
+    <system:String x:Key="VideoEncoder_vvenc">vvenc</system:String>
+    
+    <!-- AV1 编码器 -->
+    <system:String x:Key="VideoEncoder_libaomav1">libaom-av1</system:String>
+    <system:String x:Key="VideoEncoder_libsvtav1">libsvtav1</system:String>
+    <system:String x:Key="VideoEncoder_librav1e">librav1e</system:String>
+    <system:String x:Key="VideoEncoder_NVENC_AV1">NVENC AV1</system:String>
+    <system:String x:Key="VideoEncoder_QSV_AV1">QSV AV1</system:String>
+    <system:String x:Key="VideoEncoder_AMF_AV1">AMF AV1</system:String>
+    
+    <!-- VP9 编码器 -->
+    <system:String x:Key="VideoEncoder_libvpxvp9">libvpx-vp9</system:String>
+    
+    <!-- ProRes 编码器 -->
+    <system:String x:Key="VideoEncoder_prores_ks">prores_ks</system:String>
+    <system:String x:Key="VideoEncoder_prores_aw">prores_aw</system:String>
+    
+    <!-- 无压缩编码器 -->
+    <system:String x:Key="VideoEncoder_rawvideo">rawvideo</system:String>
+    <system:String x:Key="VideoEncoder_ffv1">ffv1</system:String>
+    <system:String x:Key="VideoEncoder_huffyuv">huffyuv</system:String>
+    
+    <!-- 复制流 -->
+    <system:String x:Key="VideoEncoder_copy">复制</system:String>
+    
+    <!-- 任务页面 -->
+    <system:String x:Key="Tasks_MediaList">媒体列表</system:String>
+    <system:String x:Key="Tasks_NoMedia">无媒体文件</system:String>
+    <system:String x:Key="Tasks_SelectedMedia">媒体列表</system:String>
+    <system:String x:Key="Tasks_NoMediaSelected">暂无媒体</system:String>
+    <system:String x:Key="Tasks_OperationSettings">操作设定</system:String>
+    <system:String x:Key="Tasks_Backend">后端</system:String>
+    <system:String x:Key="Tasks_OutputPath">输出路径</system:String>
+    <system:String x:Key="Tasks_VideoEncoder">视频编码器</system:String>
+    <system:String x:Key="Tasks_VideoMode">编码模式</system:String>
+    <system:String x:Key="Tasks_OutputSize">输出尺寸</system:String>
+    <system:String x:Key="Tasks_OutputFormat">输出格式</system:String>
+    <system:String x:Key="Tasks_CommandPreview">命令预览</system:String>
+    <system:String x:Key="Tasks_CopyCommand">复制命令</system:String>
+    <system:String x:Key="Tasks_RefreshPreview">刷新预览</system:String>
+    <system:String x:Key="Tasks_AddToQueue">添加到队列</system:String>
+    <system:String x:Key="Tasks_NoValidTasks">没有有效的任务可添加</system:String>
+    <system:String x:Key="Tasks_AddToQueueError">添加到队列时出错</system:String>
+    <system:String x:Key="Tasks_NotSet">未设置</system:String>
+    <system:String x:Key="Tasks_StreamCopy">流复制</system:String>
+    <system:String x:Key="Tasks_Encode">编码</system:String>
+    <system:String x:Key="Tasks_SameAsSource">与源相同</system:String>
+    <system:String x:Key="Tasks_Preset">预设</system:String>
+    <system:String x:Key="Tasks_RateMode">码率模式</system:String>
+    <system:String x:Key="Tasks_Bitrate">比特率</system:String>
+    <system:String x:Key="Tasks_Filters">滤镜</system:String>
+    <system:String x:Key="Tasks_Filter_Scale">缩放</system:String>
+    <system:String x:Key="Tasks_Filter_Crop">裁切</system:String>
+    <system:String x:Key="Tasks_Filter_FlipH">水平翻转</system:String>
+    <system:String x:Key="Tasks_Filter_FlipV">垂直翻转</system:String>
+    <system:String x:Key="Tasks_Filter_Rotate">旋转</system:String>
+    <system:String x:Key="Tasks_NoConfiguration">无可用配置</system:String>
+    <system:String x:Key="Tasks_ConfigureInOperations">请在操作页面配置设置</system:String>
+    <system:String x:Key="Tasks_NoCommandBuilder">未找到命令构建器</system:String>
+    <system:String x:Key="Tasks_ConfigureBackend">请在操作页面配置后端和编码器</system:String>
+    <system:String x:Key="Tasks_PreviewError">生成预览时出错</system:String>
+    <system:String x:Key="Tasks_Uncompressed">无压缩</system:String>
+    <system:String x:Key="Tasks_Unknown">未知</system:String>
+
+    <!-- 队列页面 -->
+    <system:String x:Key="Queue_Button_Start">开始/暂停</system:String>
+    <system:String x:Key="Queue_Button_Pause">暂停</system:String>
+    <system:String x:Key="Queue_Button_MoveUp">上移</system:String>
+    <system:String x:Key="Queue_Button_MoveDown">下移</system:String>
+    <system:String x:Key="Queue_Button_Remove">取消</system:String>
+    <system:String x:Key="Queue_Button_ClearCompleted">清除已完成</system:String>
+    <system:String x:Key="Queue_Button_Settings">设置优先</system:String>
+    
+    <system:String x:Key="Queue_Header_Preview">预览</system:String>
+    <system:String x:Key="Queue_Header_Name">名称</system:String>
+    <system:String x:Key="Queue_Header_Status">状态</system:String>
+    <system:String x:Key="Queue_Header_Progress">进度</system:String>
+    <system:String x:Key="Queue_Header_Format">格式</system:String>
+    <system:String x:Key="Queue_Header_Size">大小</system:String>
+    <system:String x:Key="Queue_Header_Duration">预计剩余时间</system:String>
+    
+    <system:String x:Key="Queue_Placeholder_NoPreview">无预览</system:String>
+    
+    <system:String x:Key="Queue_Status_Waiting">等待中</system:String>
+    <system:String x:Key="Queue_Status_Processing">处理中</system:String>
+    <system:String x:Key="Queue_Status_Completed">已完成</system:String>
+    <system:String x:Key="Queue_Status_Failed">失败</system:String>
+    <system:String x:Key="Queue_Status_Paused">已暂停</system:String>
+    
+    <system:String x:Key="Queue_Started">队列已启动</system:String>
+    <system:String x:Key="Queue_Paused">队列已暂停</system:String>
+    <system:String x:Key="Queue_TaskCompleted">任务完成</system:String>
+    <system:String x:Key="Queue_TaskFailed">任务失败</system:String>
+    <system:String x:Key="Queue_TasksAdded">已添加任务</system:String>
+    <system:String x:Key="Queue_TasksRemoved">已移除 {0} 个任务</system:String>
+    
+    <system:String x:Key="Queue_ConfirmRemove_Single">确定要从队列中移除此任务吗？</system:String>
+    <system:String x:Key="Queue_ConfirmRemove_Multiple">确定要从队列中移除 {0} 个任务吗？</system:String>
+    <system:String x:Key="Queue_ConfirmRemove_Title">确认移除</system:String>
+    <system:String x:Key="Queue_EstimatedRemaining">预计剩余</system:String>
+    
+</ResourceDictionary>

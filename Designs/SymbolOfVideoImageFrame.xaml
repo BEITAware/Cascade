@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="Layer_10" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Geometry="F1 M 0.03125,0L 772.031,0L 772.031,478L 0.03125,478L 0.03125,0 Z ">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="1" LineJoin="Round" Brush="#FF000000"/>
+						</GeometryDrawing.Pen>
+						<GeometryDrawing.Brush>
+							<RadialGradientBrush RadiusX="1.45438" RadiusY="2.34892" Center="0.170985,-0.276151" GradientOrigin="0.170985,-0.276151">
+								<RadialGradientBrush.GradientStops>
+									<GradientStop Color="#FF004CBA" Offset="0"/>
+									<GradientStop Color="#FF140020" Offset="1"/>
+								</RadialGradientBrush.GradientStops>
+								<RadialGradientBrush.RelativeTransform>
+									<TransformGroup/>
+								</RadialGradientBrush.RelativeTransform>
+							</RadialGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+					<GeometryDrawing Geometry="F1 M 0,0.027832L 772,0.027832L 772,478.027L 0,478.027L 0,0.027832 Z ">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="1" LineJoin="Round" Brush="#FF000000"/>
+						</GeometryDrawing.Pen>
+						<GeometryDrawing.Brush>
+							<RadialGradientBrush RadiusX="1.45438" RadiusY="2.34892" Center="0.0971503,-0.40795" GradientOrigin="0.0971503,-0.40795">
+								<RadialGradientBrush.GradientStops>
+									<GradientStop Color="#68FFFFFF" Offset="0.00459418"/>
+									<GradientStop Color="#11FFFFFF" Offset="0.488515"/>
+									<GradientStop Color="#00FFFFFF" Offset="0.491577"/>
+									<GradientStop Color="#00FFFFFF" Offset="1"/>
+								</RadialGradientBrush.GradientStops>
+								<RadialGradientBrush.RelativeTransform>
+									<TransformGroup/>
+								</RadialGradientBrush.RelativeTransform>
+							</RadialGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

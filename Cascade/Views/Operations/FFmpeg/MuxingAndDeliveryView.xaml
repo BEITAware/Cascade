@@ -1,0 +1,51 @@
+<UserControl x:Class="Cascade.Views.Operations.FFmpeg.MuxingAndDeliveryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Cascade.Views.Operations.FFmpeg"
+             xmlns:vm="clr-namespace:Cascade.ViewModels.Operations.FFmpeg"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="520"
+             Foreground="White">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Cascade;component/Styles/AeroControls.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16">
+
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <!-- 封装与交付 -->
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <TextBlock Text="{DynamicResource MuxingDelivery_Title}" FontSize="14" FontWeight="SemiBold" Foreground="#FF61D1F0" Margin="0,12,0,8"/>
+
+            <!-- 格式与容器 -->
+            <StackPanel Margin="0,0,0,12">
+                <ComboBox Width="160" Height="28" HorizontalAlignment="Left"
+                          ItemsSource="{Binding AvailableContainers}"
+                          SelectedIndex="{Binding SelectedContainerIndex}"/>
+                <TextBlock Text="{DynamicResource MuxingDelivery_FormatContainer}" FontSize="10" Foreground="#99FFFFFF" Margin="4,2,0,0"/>
+            </StackPanel>
+
+            <!-- 网络优化 (仅MP4) -->
+            <CheckBox Content="{DynamicResource MuxingDelivery_WebOptimized}" Margin="0,8,0,0"
+                      IsChecked="{Binding IsWebOptimized}"
+                      IsEnabled="{Binding IsWebOptimizedEnabled}"/>
+
+            <!-- 头部压缩 (仅MKV) -->
+            <CheckBox Content="{DynamicResource MuxingDelivery_HeaderCompression}" Margin="0,8,0,0"
+                      IsChecked="{Binding IsHeaderCompression}"
+                      IsEnabled="{Binding IsHeaderCompressionEnabled}"/>
+
+            <!-- 底部间距 -->
+            <Border Height="20"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

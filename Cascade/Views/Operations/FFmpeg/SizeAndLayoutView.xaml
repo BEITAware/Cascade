@@ -1,0 +1,420 @@
+<UserControl x:Class="Cascade.Views.Operations.FFmpeg.SizeAndLayoutView"  
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Cascade.Views.Operations.FFmpeg"
+             xmlns:vm="clr-namespace:Cascade.ViewModels.Operations.FFmpeg"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="500"
+             Foreground="White">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Cascade;component/Styles/AeroControls.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- 布尔值到可见性转换器 -->
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+            
+            <!-- 视频画面样式 - 来自 Designs/SymbolOfVideoImageFrame.xaml -->
+            <DrawingBrush x:Key="VideoFrameBrush" Stretch="Uniform">
+                <DrawingBrush.Drawing>
+                    <DrawingGroup>
+                        <DrawingGroup.Children>
+                            <GeometryDrawing Geometry="F1 M 0.03125,0L 772.031,0L 772.031,478L 0.03125,478L 0.03125,0 Z ">
+                                <GeometryDrawing.Pen>
+                                    <Pen Thickness="1" LineJoin="Round" Brush="#FF000000"/>
+                                </GeometryDrawing.Pen>
+                                <GeometryDrawing.Brush>
+                                    <RadialGradientBrush RadiusX="1.45438" RadiusY="2.34892" Center="0.170985,-0.276151" GradientOrigin="0.170985,-0.276151">
+                                        <GradientStop Color="#FF004CBA" Offset="0"/>
+                                        <GradientStop Color="#FF140020" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </GeometryDrawing.Brush>
+                            </GeometryDrawing>
+                            <GeometryDrawing Geometry="F1 M 0,0.027832L 772,0.027832L 772,478.027L 0,478.027L 0,0.027832 Z ">
+                                <GeometryDrawing.Pen>
+                                    <Pen Thickness="1" LineJoin="Round" Brush="#FF000000"/>
+                                </GeometryDrawing.Pen>
+                                <GeometryDrawing.Brush>
+                                    <RadialGradientBrush RadiusX="1.45438" RadiusY="2.34892" Center="0.0971503,-0.40795" GradientOrigin="0.0971503,-0.40795">
+                                        <GradientStop Color="#68FFFFFF" Offset="0.00459418"/>
+                                        <GradientStop Color="#11FFFFFF" Offset="0.488515"/>
+                                        <GradientStop Color="#00FFFFFF" Offset="0.491577"/>
+                                        <GradientStop Color="#00FFFFFF" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </GeometryDrawing.Brush>
+                            </GeometryDrawing>
+                        </DrawingGroup.Children>
+                    </DrawingGroup>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
+            
+            <!-- 分组标题样式 -->
+            <Style x:Key="GroupTitleStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Foreground" Value="#FF61D1F0"/>
+                <Setter Property="Margin" Value="0,12,0,8"/>
+            </Style>
+            
+            <!-- 标签样式 -->
+            <Style x:Key="LabelStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Foreground" Value="#CCFFFFFF"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0,0,8,0"/>
+            </Style>
+            
+            <!-- 小标签样式 -->
+            <Style x:Key="SmallLabelStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="10"/>
+                <Setter Property="Foreground" Value="#99FFFFFF"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16">
+
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <!-- 输出尺寸 -->
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <TextBlock Text="{DynamicResource SizeLayout_OutputSize}" Style="{StaticResource GroupTitleStyle}"/>
+            <StackPanel>
+                <ComboBox Style="{StaticResource AeroComboBoxStyle}" 
+                          Width="180" Height="28" HorizontalAlignment="Left"
+                          SelectedIndex="{Binding OutputSizeMode}">
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_SameAsSource}"/>
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_Custom}"/>
+                </ComboBox>
+                
+                <!-- 自定义尺寸区域 -->
+                <Border Visibility="{Binding IsCustomOutputSize, Converter={StaticResource BoolToVisibility}}"
+                        Margin="0,8,0,0" Padding="12,8" CornerRadius="4"
+                        Background="#20FFFFFF">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel>
+                            <TextBox Width="80" Height="26" Text="{Binding CustomWidth, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource SizeLayout_Width}" Style="{StaticResource SmallLabelStyle}" Margin="4,2,0,0"/>
+                        </StackPanel>
+                        <TextBlock Text="×" FontSize="16" VerticalAlignment="Top" Margin="8,4,8,0"/>
+                        <StackPanel>
+                            <TextBox Width="80" Height="26" Text="{Binding CustomHeight, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <TextBlock Text="{DynamicResource SizeLayout_Height}" Style="{StaticResource SmallLabelStyle}" Margin="4,2,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <!-- 输出比例 -->
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <TextBlock Text="{DynamicResource SizeLayout_OutputScale}" Style="{StaticResource GroupTitleStyle}"/>
+            <StackPanel>
+                <ComboBox Style="{StaticResource AeroComboBoxStyle}" 
+                          Width="200" Height="28" HorizontalAlignment="Left"
+                          SelectedIndex="{Binding OutputScaleMode}">
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_ScaleAuto}"/>
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_Scale_1_1}"/>
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_Scale_4_3}"/>
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_Scale_16_9}"/>
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_Scale_21_9}"/>
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_Scale_235_1}"/>
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_Scale_239_1}"/>
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_ScaleCustom}"/>
+                </ComboBox>
+                
+                <!-- 自定义比例区域 -->
+                <Border Visibility="{Binding IsCustomOutputScale, Converter={StaticResource BoolToVisibility}}"
+                        Margin="0,8,0,0" Padding="12,8" CornerRadius="4"
+                        Background="#20FFFFFF">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Width="60" Height="26" Text="{Binding CustomScaleX, UpdateSourceTrigger=PropertyChanged}"
+                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <TextBlock Text=":" FontSize="16" VerticalAlignment="Center" Margin="8,0"/>
+                        <TextBox Width="60" Height="26" Text="{Binding CustomScaleY, UpdateSourceTrigger=PropertyChanged}"
+                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <!-- 变形（Anamorphic） -->
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <TextBlock Text="{DynamicResource SizeLayout_Anamorphic}" Style="{StaticResource GroupTitleStyle}"/>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox Style="{StaticResource AeroComboBoxStyle}" 
+                          Width="140" Height="28"
+                          SelectedIndex="{Binding AnamorphicMode}">
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_Square}"/>
+                    <ComboBoxItem Content="4:3"/>
+                    <ComboBoxItem Content="16:9"/>
+                    <ComboBoxItem Content="2.35:1"/>
+                    <ComboBoxItem Content="2.39:1"/>
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_Custom}"/>
+                </ComboBox>
+                
+                <!-- 自定义变形比例 -->
+                <StackPanel Orientation="Horizontal" Margin="12,0,0,0"
+                            Visibility="{Binding IsCustomAnamorphic, Converter={StaticResource BoolToVisibility}}">
+                    <TextBox Width="50" Height="26" Text="{Binding CustomAnamorphicX, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <TextBlock Text=":" FontSize="14" VerticalAlignment="Center" Margin="6,0"/>
+                    <TextBox Width="50" Height="26" Text="{Binding CustomAnamorphicY, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <!-- 旋转 -->
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <TextBlock Text="{DynamicResource SizeLayout_Rotation}" Style="{StaticResource GroupTitleStyle}"/>
+            <StackPanel>
+                <!-- 翻转选项 -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                    <CheckBox Content="{DynamicResource SizeLayout_FlipHorizontal}" IsChecked="{Binding FlipHorizontal}" Margin="0,0,20,0"/>
+                    <CheckBox Content="{DynamicResource SizeLayout_FlipVertical}" IsChecked="{Binding FlipVertical}"/>
+                </StackPanel>
+                
+                <!-- 旋转滑条 -->
+                <Grid Margin="0,4,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="0°" Style="{StaticResource SmallLabelStyle}" VerticalAlignment="Center"/>
+                    <Slider Grid.Column="1" Minimum="0" Maximum="270" 
+                            Value="{Binding RotationAngle}"
+                            TickPlacement="BottomRight"
+                            Ticks="0,90,180,270"
+                            IsSnapToTickEnabled="True"
+                            Margin="8,0"/>
+                    <TextBlock Grid.Column="2" Text="270°" Style="{StaticResource SmallLabelStyle}" VerticalAlignment="Center"/>
+                </Grid>
+                <TextBlock HorizontalAlignment="Center" Margin="0,4,0,0">
+                    <Run Text="{DynamicResource SizeLayout_CurrentAngle}" Foreground="#99FFFFFF"/>
+                    <Run Text="{Binding RotationAngle, Mode=OneWay}" Foreground="White"/>
+                    <Run Text="°" Foreground="White"/>
+                </TextBlock>
+            </StackPanel>
+
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <!-- 旋转至...... -->
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <TextBlock Text="{DynamicResource SizeLayout_RotateTo}" Style="{StaticResource GroupTitleStyle}"/>
+            <TextBlock Text="{DynamicResource SizeLayout_RotateToHint}" Style="{StaticResource SmallLabelStyle}" Margin="0,-4,0,8"/>
+            <StackPanel>
+                <!-- 高级旋转滑条 -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource SizeLayout_FullVertical}" Style="{StaticResource SmallLabelStyle}" VerticalAlignment="Center" Width="40"/>
+                    <Slider Grid.Column="1" Minimum="-1" Maximum="1" 
+                            Value="{Binding AdvancedRotation}"
+                            TickPlacement="BottomRight"
+                            Ticks="-1,0,1"
+                            IsSnapToTickEnabled="True"
+                            Margin="8,0"/>
+                    <TextBlock Grid.Column="2" Text="{DynamicResource SizeLayout_FullHorizontal}" Style="{StaticResource SmallLabelStyle}" VerticalAlignment="Center" Width="40" TextAlignment="Right"/>
+                </Grid>
+                <TextBlock Text="{DynamicResource SizeLayout_None}" HorizontalAlignment="Center" Margin="0,2,0,8"
+                           Visibility="{Binding IsAdvancedRotationNone, Converter={StaticResource BoolToVisibility}}"
+                           Style="{StaticResource SmallLabelStyle}"/>
+                
+                <!-- 视频画面预览 - 使用Canvas隔离旋转元素的布局影响 -->
+                <Border Margin="0,8,0,0" HorizontalAlignment="Center" 
+                        ClipToBounds="True" Width="160" Height="160">
+                    <Canvas Width="160" Height="160">
+                        <Rectangle Width="160" Height="100"
+                                   Canvas.Left="0" Canvas.Top="30"
+                                   Fill="{StaticResource VideoFrameBrush}" 
+                                   RenderTransformOrigin="0.5,0.5">
+                            <Rectangle.RenderTransform>
+                                <RotateTransform Angle="{Binding PreviewRotationAngle}"/>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                    </Canvas>
+                </Border>
+            </StackPanel>
+
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <!-- 裁切 -->
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <TextBlock Text="{DynamicResource SizeLayout_Crop}" Style="{StaticResource GroupTitleStyle}"/>
+            <StackPanel>
+                <ComboBox Style="{StaticResource AeroComboBoxStyle}" 
+                          Width="140" Height="28" HorizontalAlignment="Left"
+                          SelectedIndex="{Binding CropMode}">
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_SameAsSource}"/>
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_AutoCrop}"/>
+                    <ComboBoxItem Content="{DynamicResource SizeLayout_Custom}"/>
+                </ComboBox>
+                
+                <!-- 自定义裁切区域 -->
+                <Border Visibility="{Binding IsCustomCrop, Converter={StaticResource BoolToVisibility}}"
+                        Margin="0,12,0,0" Padding="16" CornerRadius="4"
+                        Background="#15FFFFFF" HorizontalAlignment="Center">
+                    <Grid Width="220" Height="160">
+                        <!-- 视频画面 -->
+                        <Rectangle Fill="{StaticResource VideoFrameBrush}" Margin="50,35,50,35"/>
+                        
+                        <!-- 上方裁切控制 -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+                            <Button Content="▲" Width="20" Height="18" FontSize="8" Padding="0"
+                                    Command="{Binding IncreaseCropTopCommand}"/>
+                            <TextBox Width="50" Height="22" Margin="4,0" 
+                                     Text="{Binding CropTop, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Button Content="▼" Width="20" Height="18" FontSize="8" Padding="0"
+                                    Command="{Binding DecreaseCropTopCommand}"/>
+                        </StackPanel>
+                        
+                        <!-- 下方裁切控制 -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                            <Button Content="▲" Width="20" Height="18" FontSize="8" Padding="0"
+                                    Command="{Binding IncreaseCropBottomCommand}"/>
+                            <TextBox Width="50" Height="22" Margin="4,0" 
+                                     Text="{Binding CropBottom, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Button Content="▼" Width="20" Height="18" FontSize="8" Padding="0"
+                                    Command="{Binding DecreaseCropBottomCommand}"/>
+                        </StackPanel>
+                        
+                        <!-- 左侧裁切控制 -->
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Button Content="◀" Width="18" Height="20" FontSize="8" Padding="0"
+                                    Command="{Binding DecreaseCropLeftCommand}"/>
+                            <TextBox Width="40" Height="22" Margin="0,4" 
+                                     Text="{Binding CropLeft, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Button Content="▶" Width="18" Height="20" FontSize="8" Padding="0"
+                                    Command="{Binding IncreaseCropLeftCommand}"/>
+                        </StackPanel>
+                        
+                        <!-- 右侧裁切控制 -->
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <Button Content="◀" Width="18" Height="20" FontSize="8" Padding="0"
+                                    Command="{Binding DecreaseCropRightCommand}"/>
+                            <TextBox Width="40" Height="22" Margin="0,4" 
+                                     Text="{Binding CropRight, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Button Content="▶" Width="18" Height="20" FontSize="8" Padding="0"
+                                    Command="{Binding IncreaseCropRightCommand}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <!-- 边框 -->
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <TextBlock Text="{DynamicResource SizeLayout_Border}" Style="{StaticResource GroupTitleStyle}"/>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox Style="{StaticResource AeroComboBoxStyle}" 
+                              Width="140" Height="28"
+                              SelectedIndex="{Binding BorderMode}">
+                        <ComboBoxItem Content="{DynamicResource SizeLayout_SameAsSource}"/>
+                        <ComboBoxItem Content="{DynamicResource SizeLayout_Custom}"/>
+                    </ComboBox>
+                    
+                    <!-- 颜色选择 -->
+                    <ComboBox Style="{StaticResource AeroComboBoxStyle}" 
+                              Width="100" Height="28" Margin="12,0,0,0"
+                              SelectedIndex="{Binding BorderColorIndex}">
+                        <ComboBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="14" Height="14" Fill="Black" Margin="0,0,6,0"/>
+                                <TextBlock Text="{DynamicResource SizeLayout_Black}"/>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="14" Height="14" Fill="White" Margin="0,0,6,0"/>
+                                <TextBlock Text="{DynamicResource SizeLayout_White}"/>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="14" Height="14" Fill="Gray" Margin="0,0,6,0"/>
+                                <TextBlock Text="{DynamicResource SizeLayout_Gray}"/>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="14" Height="14" Fill="Transparent" Stroke="White" StrokeThickness="1" Margin="0,0,6,0"/>
+                                <TextBlock Text="{DynamicResource SizeLayout_Transparent}"/>
+                            </StackPanel>
+                        </ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                
+                <!-- 自定义边框区域 -->
+                <Border Visibility="{Binding IsCustomBorder, Converter={StaticResource BoolToVisibility}}"
+                        Margin="0,12,0,0" Padding="16" CornerRadius="4"
+                        Background="#15FFFFFF" HorizontalAlignment="Center">
+                    <Grid Width="220" Height="160">
+                        <!-- 视频画面 -->
+                        <Rectangle Fill="{StaticResource VideoFrameBrush}" Margin="50,35,50,35"/>
+                        
+                        <!-- 上方边框控制 -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+                            <Button Content="▲" Width="20" Height="18" FontSize="8" Padding="0"
+                                    Command="{Binding IncreaseBorderTopCommand}"/>
+                            <TextBox Width="50" Height="22" Margin="4,0" 
+                                     Text="{Binding BorderTop, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Button Content="▼" Width="20" Height="18" FontSize="8" Padding="0"
+                                    Command="{Binding DecreaseBorderTopCommand}"/>
+                        </StackPanel>
+                        
+                        <!-- 下方边框控制 -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                            <Button Content="▲" Width="20" Height="18" FontSize="8" Padding="0"
+                                    Command="{Binding IncreaseBorderBottomCommand}"/>
+                            <TextBox Width="50" Height="22" Margin="4,0" 
+                                     Text="{Binding BorderBottom, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Button Content="▼" Width="20" Height="18" FontSize="8" Padding="0"
+                                    Command="{Binding DecreaseBorderBottomCommand}"/>
+                        </StackPanel>
+                        
+                        <!-- 左侧边框控制 -->
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Button Content="◀" Width="18" Height="20" FontSize="8" Padding="0"
+                                    Command="{Binding DecreaseBorderLeftCommand}"/>
+                            <TextBox Width="40" Height="22" Margin="0,4" 
+                                     Text="{Binding BorderLeft, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Button Content="▶" Width="18" Height="20" FontSize="8" Padding="0"
+                                    Command="{Binding IncreaseBorderLeftCommand}"/>
+                        </StackPanel>
+                        
+                        <!-- 右侧边框控制 -->
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <Button Content="◀" Width="18" Height="20" FontSize="8" Padding="0"
+                                    Command="{Binding DecreaseBorderRightCommand}"/>
+                            <TextBox Width="40" Height="22" Margin="0,4" 
+                                     Text="{Binding BorderRight, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Button Content="▶" Width="18" Height="20" FontSize="8" Padding="0"
+                                    Command="{Binding IncreaseBorderRightCommand}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+            
+            <!-- 底部间距 -->
+            <Border Height="20"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

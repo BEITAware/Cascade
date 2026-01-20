@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="Layer_13" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Geometry="F1 M 7.00024,1.00049L 3188.5,1.00049C 3191.81,1.00049 3194.5,3.68652 3194.5,7.00049L 3194.5,239.501C 3194.5,242.815 3191.81,245.501 3188.5,245.501L 7.00024,245.501C 3.68604,245.501 1.00024,242.815 1.00024,239.501L 1.00024,7.00049C 1.00024,3.68652 3.68604,1.00049 7.00024,1.00049 Z ">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="2" LineJoin="Round">
+								<Pen.Brush>
+									<RadialGradientBrush RadiusX="1.18093" RadiusY="1.09541" Center="0.499995,-0.195352" GradientOrigin="0.499995,-0.195352">
+										<RadialGradientBrush.GradientStops>
+											<GradientStop Color="#FF5984AD" Offset="0"/>
+											<GradientStop Color="#FFFFFFFF" Offset="1"/>
+										</RadialGradientBrush.GradientStops>
+										<RadialGradientBrush.RelativeTransform>
+											<TransformGroup/>
+										</RadialGradientBrush.RelativeTransform>
+									</RadialGradientBrush>
+								</Pen.Brush>
+							</Pen>
+						</GeometryDrawing.Pen>
+						<GeometryDrawing.Brush>
+							<RadialGradientBrush RadiusX="1.18167" RadiusY="1.10437" Center="0.499995,-0.20104" GradientOrigin="0.499995,-0.20104">
+								<RadialGradientBrush.GradientStops>
+									<GradientStop Color="#A34588BD" Offset="0"/>
+									<GradientStop Color="#111AD5FF" Offset="0.690659"/>
+									<GradientStop Color="#31FFFFFF" Offset="1"/>
+								</RadialGradientBrush.GradientStops>
+								<RadialGradientBrush.RelativeTransform>
+									<TransformGroup/>
+								</RadialGradientBrush.RelativeTransform>
+							</RadialGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

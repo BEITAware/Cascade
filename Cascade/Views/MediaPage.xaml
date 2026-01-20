@@ -1,0 +1,607 @@
+<UserControl x:Class="Cascade.Views.MediaPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Cascade.Views"
+             xmlns:vm="clr-namespace:Cascade.ViewModels"
+             xmlns:helpers="clr-namespace:Cascade.Helpers"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800"
+             Background="Transparent"
+             AllowDrop="True"
+             Drop="UserControl_Drop">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Cascade;component/Styles/MediaStyles.xaml"/>
+                <ResourceDictionary Source="/Cascade;component/Styles/PlayerStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- 转换器 -->
+            <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <!-- 媒体页面 - 媒体管理和浏览功能 -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="150"/>
+            <!-- 主要内容区 -->
+            <RowDefinition Height="8"/>
+            <!-- 垂直分隔条 -->
+            <RowDefinition Height="261" MinHeight="150"/>
+            <!-- 底部信息区 -->
+        </Grid.RowDefinitions>
+
+        <!-- 主要内容区 -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="231" MinWidth="150"/>
+                <!-- 左侧缩略图列表 -->
+                <ColumnDefinition Width="8"/>
+                <!-- 水平分隔条 -->
+                <ColumnDefinition MinWidth="200"/>
+                <!-- 右侧区域 -->
+            </Grid.ColumnDefinitions>
+
+            <!-- 左侧缩略图列表 -->
+            <Border Grid.Column="0" BorderBrush="#33FFFFFF" BorderThickness="1" Background="#0DFFFFFF" Margin="0" CornerRadius="3">
+                <ListBox x:Name="MediaListBox"
+                         ItemsSource="{Binding MediaItems}"
+                         SelectionMode="Extended"
+                         SelectionChanged="ListBox_SelectionChanged"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         Style="{x:Null}"
+                         ItemContainerStyle="{StaticResource MediaListBoxItemStyle}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <!-- 使用 WrapPanel 实现自适应排列，每个项目固定为 1:1 正方形 -->
+                            <!-- 调整 ItemWidth/Height 以优化间距，避免离右边缘太远 -->
+                            <WrapPanel Orientation="Horizontal" ItemWidth="100" ItemHeight="120"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <!-- 外层容器：整体布局 -->
+                            <!-- 增加 Margin 以平衡左右间距 -->
+                            <Grid Width="90" Height="110" Margin="5,5,5,5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="90"/>
+                                    <!-- 1:1 正方形缩略图区域 (90x90) -->
+                                    <RowDefinition Height="*"/>
+                                    <!-- 文件名区域 -->
+                                </Grid.RowDefinitions>
+
+                                <!-- ============================================== -->
+                                <!-- 缩略图容器：1:1 正方形，三层结构 -->
+                                <!-- ============================================== -->
+                                <Grid Grid.Row="0" Width="90" Height="90">
+
+                                    <!-- 第一层：GlassBottom 基底层 -->
+                                    <!-- 使用 DrawingBrush 绘制，包含背景和边框 -->
+                                    <Rectangle x:Name="GlassBottom" Width="90" Height="90"
+                                               Fill="{StaticResource ThumbnailGlassBottomBrush}"/>
+
+                                    <!-- 选中状态层：GlassBottomSelected (默认透明) -->
+                                    <Rectangle x:Name="GlassBottomSelected" Width="90" Height="90"
+                                               Fill="{StaticResource ThumbnailGlassBottomSelectedBrush}"
+                                               Opacity="0"/>
+
+                                    <!-- 第二层：16:9 缩略图框 (居中于1:1容器内) -->
+                                    <!-- 尺寸 82x46.125 (16:9)，带圆角和 Letterbox -->
+                                    <Grid Width="82" Height="46.125"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center">
+                                        <Border Background="{StaticResource ThumbnailLetterboxBrush}"
+                                                BorderBrush="{StaticResource ThumbnailFrameBorderBrush}"
+                                                BorderThickness="1"
+                                                CornerRadius="2">
+                                            <Border.Clip>
+                                                <!-- 这个Geometry看起来不正常但切勿修改 -->
+                                                <RectangleGeometry Rect="-3,0,82,46.125" RadiusX="2" RadiusY="2"/>
+                                            </Border.Clip>
+                                            <Grid>
+                                                <!-- 占位符 -->
+                                                <TextBlock Text="{DynamicResource Media_Placeholder_Thumbnail}"
+                                                           Foreground="#66FFFFFF"
+                                                           FontSize="9"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding Thumbnail}" Value="{x:Null}"/>
+                                                                        <Condition Binding="{Binding IsLoading}" Value="False"/>
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </MultiDataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+
+                                                <!-- 缩略图图像 -->
+                                                <Image Source="{Binding Thumbnail}"
+                                                       Stretch="Uniform"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+
+                                                <!-- 加载指示器 -->
+                                                <TextBlock Text="{DynamicResource Media_Placeholder_Loading}"
+                                                           Foreground="#AAFFFFFF"
+                                                           FontSize="9"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+
+                                    <!-- 第三层：GlassSlice 顶部高光覆盖层 -->
+                                    <!-- 使用 DrawingBrush 绘制，包含高光和边框 -->
+                                    <Rectangle Width="90" Height="90"
+                                               Fill="{StaticResource ThumbnailGlassSliceBrush}"
+                                               IsHitTestVisible="False"/>
+
+                                </Grid>
+
+                                <!-- 文件名标签 -->
+                                <TextBlock Grid.Row="1"
+                                           Text="{Binding Name}"
+                                           Foreground="White"
+                                           FontSize="11"
+                                           TextTrimming="CharacterEllipsis"
+                                           TextWrapping="Wrap"
+                                           MaxHeight="32"
+                                           HorizontalAlignment="Center"
+                                           TextAlignment="Center"
+                                           Margin="2,4,2,0"
+                                           ToolTip="{Binding Name}"/>
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="GlassBottomSelected"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="1" Duration="0:0:0.2">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <CubicEase EasingMode="EaseOut"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="GlassBottomSelected"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0" Duration="0:0:0.4">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <QuadraticEase EasingMode="EaseIn"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+
+            <!-- 左右分隔条 (主内容区) -->
+            <GridSplitter Grid.Column="1" 
+                          Style="{StaticResource AeroGridSplitterHorizontalStyle}"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          ResizeDirection="Columns"
+                          ResizeBehavior="PreviousAndNext"/>
+
+            <!-- 右侧区域 (包含工具栏和详细列表) -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- 工具栏 -->
+                    <RowDefinition Height="*"/>
+                    <!-- 详细列表 -->
+                </Grid.RowDefinitions>
+
+                <!-- 顶部工具栏 -->
+                <Border Grid.Row="0" Background="{StaticResource MediaBarGlassBrush}" BorderBrush="#80FFFFFF" BorderThickness="1" Margin="2" CornerRadius="3" Padding="10,5">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Command="{Binding AddFileCommand}" Style="{StaticResource MediaToolbarButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Icons/AddMedia.png" Width="32" Height="32" Margin="0,0,5,0"/>
+                                <TextBlock Text="{DynamicResource Media_Button_AddFile}" VerticalAlignment="Center" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding AddFolderCommand}" Style="{StaticResource MediaToolbarButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Icons/AddFolder.png" Width="32" Height="32" Margin="0,0,5,0"/>
+                                <TextBlock Text="{DynamicResource Media_Button_AddFolder}" VerticalAlignment="Center" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Rectangle Width="1" Height="20" Fill="#33FFFFFF" Margin="5,0"/>
+
+                        <Button Command="{Binding RemoveCommand}" Style="{StaticResource MediaToolbarButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Icons/RedCross.png" Width="32" Height="32" Margin="0,0,5,0"/>
+                                <TextBlock Text="{DynamicResource Media_Button_Remove}" VerticalAlignment="Center" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Rectangle Width="1" Height="20" Fill="#33FFFFFF" Margin="5,0"/>
+
+                        <Button Command="{Binding ClearCommand}" Style="{StaticResource MediaToolbarButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Icons/TrashBin.png" Width="32" Height="32" Margin="0,0,5,0"/>
+                                <TextBlock Text="{DynamicResource Media_Button_Clear}" VerticalAlignment="Center" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <!-- 右侧详细列表 -->
+                <Border Grid.Row="1" BorderBrush="#33FFFFFF" BorderThickness="1" Margin="0" CornerRadius="3">
+                    <ListView x:Name="MediaListView"
+                              Margin="0,0,0,0"
+                              ItemsSource="{Binding MediaItems}"
+                              SelectionMode="Extended"
+                              SelectionChanged="ListView_SelectionChanged"
+                              Background="Transparent"
+                              BorderThickness="0"
+                              Padding="0"
+                              SnapsToDevicePixels="True"
+                              Foreground="White"
+                              ItemContainerStyle="{StaticResource MediaListViewItemStyle}">
+                        <ListView.View>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource MediaListViewHeaderStyle}">
+                                <GridViewColumn Width="110">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid Width="96" Height="54">
+                                                <Border Background="Black" BorderBrush="#40FFFFFF" BorderThickness="1" CornerRadius="2">
+                                                    <Border.Clip>
+                                                        <RectangleGeometry Rect="0,0,96,54" RadiusX="2" RadiusY="2"/>
+                                                    </Border.Clip>
+                                                    <Grid>
+                                                        <TextBlock Text="{DynamicResource Media_Placeholder_NoPreview}" Foreground="#66FFFFFF" FontSize="9" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    <Style.Triggers>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding Thumbnail}" Value="{x:Null}"/>
+                                                                                <Condition Binding="{Binding IsLoading}" Value="False"/>
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                                        </MultiDataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                        <Image Source="{Binding Thumbnail}" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        <TextBlock Text="..." Foreground="#AAFFFFFF" FontSize="9" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                                    </Grid>
+                                                </Border>
+                                                <Rectangle Fill="{StaticResource ListViewThumbnailGlassSliceBrush}" IsHitTestVisible="False"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource Media_Header_Name}" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                                <GridViewColumn Header="{DynamicResource Media_Header_Format}" Width="60" DisplayMemberBinding="{Binding Format}"/>
+                                <GridViewColumn Header="{DynamicResource Media_Header_Size}" Width="80" DisplayMemberBinding="{Binding Size}"/>
+                                <GridViewColumn Header="{DynamicResource Media_Header_Duration}" Width="80" DisplayMemberBinding="{Binding Duration}"/>
+                                <GridViewColumn Header="{DynamicResource Media_Header_Resolution}" Width="100" DisplayMemberBinding="{Binding Resolution}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- 上下分隔条 (主内容区与底部信息区) -->
+        <GridSplitter Grid.Row="1" 
+                      Style="{StaticResource AeroGridSplitterVerticalStyle}"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      ResizeDirection="Rows"
+                      ResizeBehavior="PreviousAndNext"/>
+
+        <!-- 底部信息区 -->
+        <Grid Grid.Row="2" Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="320" MinWidth="200"/>
+                <!-- 视频预览 -->
+                <ColumnDefinition Width="8"/>
+                <!-- 水平分隔条 -->
+                <ColumnDefinition MinWidth="200"/>
+                <!-- 详细信息 -->
+            </Grid.ColumnDefinitions>
+
+            <!-- 视频预览区域 -->
+            <Border Grid.Column="0" Background="#CC000000" BorderBrush="#33FFFFFF" BorderThickness="1" CornerRadius="3" Margin="0,0,0,0" ClipToBounds="True">
+                <Grid>
+                    <!-- 视频内容 -->
+                    <Border Background="#FF1A1A1A" Margin="0,0,0,60">
+                        <Grid>
+                            <MediaElement Source="{Binding PlayerViewModel.CurrentMediaItem.FilePath}"
+                                          LoadedBehavior="Manual"
+                                          Stretch="Uniform"
+                                          Volume="{Binding PlayerViewModel.Volume}"
+                                          IsMuted="{Binding PlayerViewModel.IsMuted}" Margin="0,0,0,20"/>
+                            <!-- 占位提示，当没有媒体时显示 -->
+                            <TextBlock Text="{DynamicResource Media_Placeholder_NoMedia}"
+                                       Foreground="#66FFFFFF"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding PlayerViewModel.CurrentMediaItem}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+
+                    <!-- 播放器控制面板 (直接集成) -->
+                    <Grid Height="80" VerticalAlignment="Bottom" DataContext="{Binding PlayerViewModel}">
+                        <!-- 背景 (高度60，位于底部) -->
+                        <Rectangle Fill="{StaticResource PlayerPanelBackgroundBrush}" Height="80" VerticalAlignment="Center"/>
+
+                        <!-- 布局 -->
+                        <Grid Margin="10,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <!-- 进度条区域 (浮在背景上方) -->
+                                <RowDefinition Height="60"/>
+                                <!-- 按钮控制区域 (在背景上) -->
+                            </Grid.RowDefinitions>
+
+                            <!-- 进度条 -->
+                            <Grid Grid.Row="0" VerticalAlignment="Bottom" Margin="0,0,0,0" Panel.ZIndex="1">
+                                <Slider Minimum="0"
+                                        Maximum="{Binding Duration}"
+                                        Value="{Binding Position}"
+                                        IsMoveToPointEnabled="True"/>
+                            </Grid>
+
+                            <!-- 按钮控制区 -->
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- 左侧播放控制 -->
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <!-- 播放/暂停大按钮 -->
+                                    <Button Style="{StaticResource MainPlayButtonStyle}"
+                                            Command="{Binding PlayPauseCommand}"
+                                            Margin="0,0,10,0"
+                                            Width="36" Height="36">
+                                        <Button.Content>
+                                            <Binding Path="IsPlaying">
+                                                <Binding.Converter>
+                                                    <local:BoolToGeometryConverter TrueGeometry="{StaticResource IconPauseGeometry}" FalseGeometry="{StaticResource IconPlayGeometry}"/>
+                                                </Binding.Converter>
+                                            </Binding>
+                                        </Button.Content>
+                                    </Button>
+
+                                    <!-- 停止 -->
+                                    <Button Style="{StaticResource PlayerControlButtonStyle}"
+                                            Command="{Binding StopCommand}"
+                                            Content="{StaticResource IconStopGeometry}"
+                                            Margin="0,0,5,0"/>
+
+                                    <!-- 快退 -->
+                                    <Button Style="{StaticResource PlayerControlButtonStyle}"
+                                            Command="{Binding RewindCommand}"
+                                            Content="{StaticResource IconRewindGeometry}"
+                                            Margin="0,0,5,0"/>
+
+                                    <!-- 快进 -->
+                                    <Button Style="{StaticResource PlayerControlButtonStyle}"
+                                            Command="{Binding FastForwardCommand}"
+                                            Content="{StaticResource IconFastForwardGeometry}"
+                                            Margin="0,0,5,0"/>
+
+                                    <!-- 下一个 -->
+                                    <Button Style="{StaticResource PlayerControlButtonStyle}"
+                                            Command="{Binding NextCommand}"
+                                            Content="{StaticResource IconNextGeometry}"/>
+                                </StackPanel>
+
+                                <!-- 右侧功能控制 -->
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <!-- 音量按钮 -->
+                                    <Button Style="{StaticResource PlayerControlButtonStyle}"
+                                            Command="{Binding MuteCommand}"
+                                            Content="{StaticResource IconVolumeGeometry}"
+                                            Margin="0,0,5,0"/>
+
+                                    <!-- 音量滑块 -->
+                                    <Slider Width="68"
+                                            Minimum="0"
+                                            Maximum="1"
+                                            Value="{Binding Volume}"
+                                            LargeChange="0.1"
+                                            SmallChange="0.05"
+                                            VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- 左右分隔条 (底部信息区) -->
+            <GridSplitter Grid.Column="1" 
+                          Style="{StaticResource AeroGridSplitterHorizontalStyle}"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          ResizeDirection="Columns"
+                          ResizeBehavior="PreviousAndNext"/>
+
+            <!-- 详细信息区域 -->
+            <Border Grid.Column="2" Background="#66050505" BorderBrush="#40FFFFFF" BorderThickness="1" CornerRadius="4" Margin="0,0,0,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="10">
+                    <StackPanel DataContext="{Binding SelectedMediaItem}" Grid.IsSharedSizeScope="True">
+                        
+                        <!-- 容器信息板块 -->
+                        <Border Style="{StaticResource MediaDetailBlockStyle}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Media_Detail_ContainerInfo}" Style="{StaticResource MediaDetailHeaderStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource Media_Label_FileName}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Style="{StaticResource MediaDetailValueStyle}"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource Media_Label_FilePath}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding FilePath}" Style="{StaticResource MediaDetailValueStyle}" ToolTip="{Binding FilePath}"/>
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource Media_Label_FileSize}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Size}" Style="{StaticResource MediaDetailValueStyle}"/>
+
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{DynamicResource Media_Label_FileFormat}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Format}" Style="{StaticResource MediaDetailValueStyle}"/>
+
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{DynamicResource Media_Label_Duration}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Duration}" Style="{StaticResource MediaDetailValueStyle}"/>
+
+                                    <TextBlock Grid.Row="5" Grid.Column="0" Text="{DynamicResource Media_Label_OverallBitrate}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Bitrate}" Style="{StaticResource MediaDetailValueStyle}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- 视频流板块 -->
+                        <Border Style="{StaticResource MediaDetailBlockStyle}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Media_Detail_VideoStream}" Style="{StaticResource MediaDetailHeaderStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource Media_Label_Codec}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding VideoCodec}" Style="{StaticResource MediaDetailValueStyle}"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource Media_Label_Resolution}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Resolution}" Style="{StaticResource MediaDetailValueStyle}"/>
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource Media_Label_FrameRate}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding FrameRate}" Style="{StaticResource MediaDetailValueStyle}"/>
+
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{DynamicResource Media_Label_Profile}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding VideoProfile}" Style="{StaticResource MediaDetailValueStyle}"/>
+
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{DynamicResource Media_Label_Level}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding VideoLevel}" Style="{StaticResource MediaDetailValueStyle}"/>
+
+                                    <TextBlock Grid.Row="5" Grid.Column="0" Text="{DynamicResource Media_Label_BitDepth}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding VideoColorDepth}" Style="{StaticResource MediaDetailValueStyle}"/>
+
+                                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{DynamicResource Media_Label_Bitrate}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding VideoBitrate}" Style="{StaticResource MediaDetailValueStyle}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- 音频流板块 -->
+                        <Border Style="{StaticResource MediaDetailBlockStyle}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Media_Detail_AudioStream}" Style="{StaticResource MediaDetailHeaderStyle}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="Label"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource Media_Label_Codec}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding AudioCodec}" Style="{StaticResource MediaDetailValueStyle}"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource Media_Label_SampleRate}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding AudioSampleRate}" Style="{StaticResource MediaDetailValueStyle}"/>
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource Media_Label_BitDepth}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding AudioBitDepth}" Style="{StaticResource MediaDetailValueStyle}"/>
+
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{DynamicResource Media_Label_Bitrate}" Style="{StaticResource MediaDetailLabelStyle}"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding AudioBitrate}" Style="{StaticResource MediaDetailValueStyle}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- 字幕板块 -->
+                        <Border Style="{StaticResource MediaDetailBlockStyle}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Media_Detail_Subtitles}" Style="{StaticResource MediaDetailHeaderStyle}"/>
+                                <TextBlock Text="{Binding Subtitles}" Style="{StaticResource MediaDetailValueStyle}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- 元数据板块 -->
+                        <Border Style="{StaticResource MediaDetailBlockStyle}">
+                            <StackPanel>
+                                <TextBlock Text="{DynamicResource Media_Detail_Metadata}" Style="{StaticResource MediaDetailHeaderStyle}"/>
+                                <TextBlock Text="{Binding Metadata}" Style="{StaticResource MediaDetailValueStyle}"/>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

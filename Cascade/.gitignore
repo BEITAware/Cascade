@@ -1,0 +1,35 @@
+﻿# Build output
+bin/
+obj/
+Libs/*
+# Visual Studio workspace
+.vs/
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+# VS Code workspace
+.vscode/
+# Rider
+.idea/
+# NuGet artifacts
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+# OS generated
+Thumbs.db
+Desktop.ini
+# Debug symbols
+*.pdb
+# Logs
+*.log
+# Dotnet publish output
+publish/
+# Package output
+*.zip
+*.7z
+*.rar
+# Kiro IDE files
+.kiro/

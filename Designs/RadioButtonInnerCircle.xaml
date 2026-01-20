@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="Layer_6" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Geometry="F1 M 52.0908,0.387329C 80.6702,0.387329 103.838,23.5555 103.838,52.1348C 103.838,80.714 80.6702,103.882 52.0908,103.882C 23.5117,103.882 0.343506,80.714 0.343506,52.1348C 0.343506,23.5555 23.5117,0.387329 52.0908,0.387329 Z ">
+						<GeometryDrawing.Brush>
+							<RadialGradientBrush RadiusX="1.1475" RadiusY="1.1475" Center="0.500001,1.14737" GradientOrigin="0.500001,1.14737">
+								<RadialGradientBrush.GradientStops>
+									<GradientStop Color="#FF8AE0FF" Offset="0.093415"/>
+									<GradientStop Color="#FF35A6E6" Offset="0.644717"/>
+									<GradientStop Color="#FF4DA6E4" Offset="0.712098"/>
+									<GradientStop Color="#FFAED3F4" Offset="0.941807"/>
+								</RadialGradientBrush.GradientStops>
+								<RadialGradientBrush.RelativeTransform>
+									<TransformGroup/>
+								</RadialGradientBrush.RelativeTransform>
+							</RadialGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

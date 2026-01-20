@@ -1,0 +1,729 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- 列表栏旧背景样式 (提取供工具栏使用) -->
+    <LinearGradientBrush x:Key="MediaBarGlassBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#40FFFFFF" Offset="0"/>
+        <GradientStop Color="#10FFFFFF" Offset="0.45"/>
+        <GradientStop Color="#00FFFFFF" Offset="0.45"/>
+        <GradientStop Color="#05FFFFFF" Offset="1"/>
+    </LinearGradientBrush>
+
+    <!-- ============================================== -->
+    <!-- 缩略图视图样式 - GlassBottom 基底层画刷 -->
+    <!-- ============================================== -->
+    
+    <DrawingBrush x:Key="ThumbnailGlassBottomBrush" Stretch="Fill">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing>
+                <GeometryDrawing.Geometry>
+                    <RectangleGeometry Rect="0,0,90,90" RadiusX="6" RadiusY="6"/>
+                </GeometryDrawing.Geometry>
+                <GeometryDrawing.Brush>
+                    <LinearGradientBrush StartPoint="0.5,-0.405855" EndPoint="0.5,1.40585">
+                        <GradientStop Color="#FF8F939C" Offset="0.130168"/>
+                        <GradientStop Color="#00FFFFFF" Offset="0.513017"/>
+                        <GradientStop Color="#00191F34" Offset="0.519142"/>
+                        <GradientStop Color="#22A0A0A0" Offset="0.981623"/>
+                    </LinearGradientBrush>
+                </GeometryDrawing.Brush>
+                <GeometryDrawing.Pen>
+                    <Pen Brush="#7F7E8DB3" Thickness="1" LineJoin="Round"/>
+                </GeometryDrawing.Pen>
+            </GeometryDrawing>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <!-- ============================================== -->
+    <!-- 缩略图视图样式 - GlassBottomSelected 选中状态基底层画刷 -->
+    <!-- ============================================== -->
+    
+    <DrawingBrush x:Key="ThumbnailGlassBottomSelectedBrush" Stretch="Fill">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing>
+                <GeometryDrawing.Geometry>
+                    <RectangleGeometry Rect="0,0,90,90" RadiusX="6" RadiusY="6"/>
+                </GeometryDrawing.Geometry>
+                <GeometryDrawing.Brush>
+                    <LinearGradientBrush StartPoint="0.5,-0.405855" EndPoint="0.5,1.40585">
+                        <GradientStop Color="#FFCCF6FF" Offset="0.130168"/>
+                        <GradientStop Color="#00FFFFFF" Offset="0.503828"/>
+                        <GradientStop Color="#00191F34" Offset="0.513017"/>
+                        <GradientStop Color="#FF799197" Offset="0.981623"/>
+                    </LinearGradientBrush>
+                </GeometryDrawing.Brush>
+                <GeometryDrawing.Pen>
+                    <Pen Brush="#7F7E8DB3" Thickness="1" LineJoin="Round"/>
+                </GeometryDrawing.Pen>
+            </GeometryDrawing>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <!-- ============================================== -->
+    <!-- 缩略图视图样式 - GlassSlice 顶部覆盖层画刷 -->
+    <!-- 提取自 Designs/GlassSlice.xaml，调整 Geometry 适配 90x90 -->
+    <!-- ============================================== -->
+
+    <!-- ============================================== -->
+    <!-- 共享的 GlassSlice 径向渐变画刷 (玻璃高光效果) -->
+    <!-- 优化：提取共用渐变，减少重复定义 -->
+    <!-- ============================================== -->
+    <RadialGradientBrush x:Key="GlassSliceRadialBrush" 
+                         RadiusX="1.51443" RadiusY="1.78833" 
+                         Center="1.12569,0.969563" GradientOrigin="1.12569,0.969563">
+        <GradientStop Color="#0FFFFFFF" Offset="0.23124"/>
+        <GradientStop Color="#00FFFFFF" Offset="0.577335"/>
+        <GradientStop Color="#0EFFFFFF" Offset="0.583461"/>
+        <GradientStop Color="#3FFFFFFF" Offset="1"/>
+    </RadialGradientBrush>
+    
+    <!-- 共享的 GlassSlice 边框画刷 -->
+    <SolidColorBrush x:Key="GlassSliceBorderBrush" Color="#34B3E1FF"/>
+
+    <!-- 列表视图专用的 GlassSlice (16:9 比例) -->
+    <!-- 优化：移除冗余的 DrawingGroup 包装和空 RelativeTransform -->
+    <DrawingBrush x:Key="ListViewThumbnailGlassSliceBrush" Stretch="Uniform">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing Brush="{StaticResource GlassSliceRadialBrush}">
+                <GeometryDrawing.Geometry>
+                    <!-- 96x54 容器，描边 2px，内缩 1.0，圆角 2px -->
+                    <RectangleGeometry Rect="1,1,94,52" RadiusX="2" RadiusY="2"/>
+                </GeometryDrawing.Geometry>
+                <GeometryDrawing.Pen>
+                    <Pen Brush="{StaticResource GlassSliceBorderBrush}" Thickness="2" 
+                         StartLineCap="Round" EndLineCap="Round" LineJoin="Round"/>
+                </GeometryDrawing.Pen>
+            </GeometryDrawing>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+    
+    <!-- 缩略图视图专用的 GlassSlice (1:1 比例) -->
+    <DrawingBrush x:Key="ThumbnailGlassSliceBrush" Stretch="Fill">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing Brush="{StaticResource GlassSliceRadialBrush}">
+                <GeometryDrawing.Geometry>
+                    <RectangleGeometry Rect="0,0,90,90" RadiusX="6" RadiusY="6"/>
+                </GeometryDrawing.Geometry>
+                <GeometryDrawing.Pen>
+                    <Pen Brush="{StaticResource GlassSliceBorderBrush}" Thickness="2" 
+                         StartLineCap="Round" EndLineCap="Round" LineJoin="Round"/>
+                </GeometryDrawing.Pen>
+            </GeometryDrawing>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <!-- 缩略图16:9区域的letterbox背景色 (黑色填充) -->
+    <SolidColorBrush x:Key="ThumbnailLetterboxBrush" Color="#FF000000"/>
+    
+    <!-- 缩略图16:9区域边框画刷 -->
+    <SolidColorBrush x:Key="ThumbnailFrameBorderBrush" Color="#40FFFFFF"/>
+
+    <!-- 列表栏背景样式 (比顶部栏稍亮，偏青) -->
+    <LinearGradientBrush x:Key="MediaListHeaderBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FF1A3040" Offset="0"/>
+        <GradientStop Color="#FF356080" Offset="1"/>
+    </LinearGradientBrush>
+
+    <!-- 列表头部分割线画刷 -->
+    <LinearGradientBrush x:Key="MediaListHeaderSeparatorBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#00FFFFFF" Offset="0"/>
+        <GradientStop Color="#80FFFFFF" Offset="0.5"/>
+        <GradientStop Color="#00FFFFFF" Offset="1"/>
+    </LinearGradientBrush>
+
+    <!-- 工具栏按钮悬停背景画刷 (提取自 Designs/ToolButtonHover.xaml) -->
+    <RadialGradientBrush x:Key="ToolButtonHoverBackgroundBrush" RadiusX="1.64234" RadiusY="2.22972" Center="0.500003,1.47445" GradientOrigin="0.500003,1.47445">
+        <RadialGradientBrush.GradientStops>
+            <GradientStop Color="#CB4C87AF" Offset="0.295559"/>
+            <GradientStop Color="#CD162D41" Offset="0.607963"/>
+            <GradientStop Color="#CD3A576E" Offset="0.638591"/>
+            <GradientStop Color="#CD6E869C" Offset="0.911179"/>
+        </RadialGradientBrush.GradientStops>
+        <RadialGradientBrush.RelativeTransform>
+            <TransformGroup>
+                <RotateTransform CenterX="0.500003" CenterY="1.47445" Angle="90"/>
+            </TransformGroup>
+        </RadialGradientBrush.RelativeTransform>
+    </RadialGradientBrush>
+
+    <!-- 工具栏按钮悬停边框颜色 -->
+    <SolidColorBrush x:Key="ToolButtonHoverBorderBrush" Color="#67BBDDF2"/>
+
+    <!-- 工具栏按钮按下背景画刷 (基于 Hover 调整颜色变深) -->
+    <RadialGradientBrush x:Key="ToolButtonPressedBackgroundBrush" RadiusX="1.64234" RadiusY="2.22972" Center="0.500003,1.47445" GradientOrigin="0.500003,1.47445">
+        <RadialGradientBrush.GradientStops>
+            <GradientStop Color="#CC2C577F" Offset="0.295559"/>
+            <GradientStop Color="#CC061D31" Offset="0.607963"/>
+            <GradientStop Color="#CC1A374E" Offset="0.638591"/>
+            <GradientStop Color="#CC4E667C" Offset="0.911179"/>
+        </RadialGradientBrush.GradientStops>
+        <RadialGradientBrush.RelativeTransform>
+            <TransformGroup>
+                <RotateTransform CenterX="0.500003" CenterY="1.47445" Angle="90"/>
+            </TransformGroup>
+        </RadialGradientBrush.RelativeTransform>
+    </RadialGradientBrush>
+
+    <!-- 工具栏按钮按下边框颜色 -->
+    <SolidColorBrush x:Key="ToolButtonPressedBorderBrush" Color="#99001020"/>
+
+    <!-- 顶部工具栏按钮样式 -->
+    <Style x:Key="MediaToolbarButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="15,8"/>
+        <Setter Property="Margin" Value="0,0,5,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid Background="{TemplateBinding Background}">
+                        <!-- 悬停状态 (使用 Border 替代 GeometryDrawing 以适应不同尺寸) -->
+                        <Border x:Name="HoverBorder"
+                                Opacity="0"
+                                CornerRadius="4"
+                                BorderThickness="2"
+                                Background="{StaticResource ToolButtonHoverBackgroundBrush}"
+                                BorderBrush="{StaticResource ToolButtonHoverBorderBrush}"/>
+                        
+                        <!-- 按下状态 (使用矢量画刷替代 ImageBrush) -->
+                        <Border x:Name="PressedBorder"
+                                Opacity="0"
+                                CornerRadius="4"
+                                BorderThickness="2"
+                                Background="{StaticResource ToolButtonPressedBackgroundBrush}"
+                                BorderBrush="{StaticResource ToolButtonPressedBorderBrush}"/>
+                        
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="HoverBorder" Property="Opacity" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="PressedBorder" Property="Opacity" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 左侧列表项容器样式 (移除原有的选中边框，仅保留布局) -->
+    <!-- 注意：不要添加额外 Margin，避免与 DataTemplate 的 Margin 叠加导致截断 -->
+    <Style x:Key="MediaListBoxItemStyle" TargetType="ListBoxItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 媒体项目选中背景画刷 (仅用于右侧列表) -->
+    <DrawingBrush x:Key="MediaItemSelectedBrush" Stretch="Fill">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <DrawingGroup.Children>
+                    <GeometryDrawing Geometry="F1 M 3.50037,0.5L 981.926,0.5C 983.583,0.5 984.926,1.84317 984.926,3.5L 984.926,173.501C 984.926,175.157 983.583,176.501 981.926,176.501L 3.50037,176.501C 1.84326,176.501 0.5,175.157 0.5,173.501L 0.5,3.5C 0.5,1.84317 1.84326,0.5 3.50037,0.5 Z ">
+                        <GeometryDrawing.Pen>
+                            <Pen LineJoin="Round" Brush="#7F7E8DB3"/>
+                        </GeometryDrawing.Pen>
+                        <GeometryDrawing.Brush>
+                            <RadialGradientBrush RadiusX="1.48871" RadiusY="1.8252" Center="0.188221,-0.369315" GradientOrigin="0.188221,-0.369315">
+                                <RadialGradientBrush.GradientStops>
+                                    <GradientStop Color="#CCFFFFFF" Offset="0.200613"/>
+                                    <GradientStop Color="#8DCFEFFF" Offset="0.323124"/>
+                                    <GradientStop Color="#797A99A6" Offset="0.454824"/>
+                                    <GradientStop Color="#4C01263F" Offset="0.678407"/>
+                                    <GradientStop Color="#8C5FCAFF" Offset="0.911179"/>
+                                    <GradientStop Color="#FF25CFFF" Offset="1"/>
+                                </RadialGradientBrush.GradientStops>
+                                <RadialGradientBrush.RelativeTransform>
+                                    <TransformGroup>
+                                        <RotateTransform CenterX="0.188221" CenterY="-0.369315" Angle="90"/>
+                                    </TransformGroup>
+                                </RadialGradientBrush.RelativeTransform>
+                            </RadialGradientBrush>
+                        </GeometryDrawing.Brush>
+                    </GeometryDrawing>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <!-- 媒体项目悬停背景画刷 (仅用于右侧列表) -->
+    <DrawingBrush x:Key="MediaItemHoverBrush" Stretch="Fill">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <DrawingGroup.Children>
+                    <GeometryDrawing Geometry="F1 M 3.50024,0.499908L 981.926,0.499908C 983.583,0.499908 984.926,1.84311 984.926,3.49991L 984.926,173.501C 984.926,175.157 983.583,176.501 981.926,176.501L 3.50024,176.501C 1.84338,176.501 0.500122,175.157 0.500122,173.501L 0.500122,3.49991C 0.500122,1.84311 1.84338,0.499908 3.50024,0.499908 Z ">
+                        <GeometryDrawing.Pen>
+                            <Pen LineJoin="Round" Brush="#7F7E8DB3"/>
+                        </GeometryDrawing.Pen>
+                        <GeometryDrawing.Brush>
+                            <RadialGradientBrush RadiusX="1.48871" RadiusY="1.8252" Center="0.188221,-0.369316" GradientOrigin="0.188221,-0.369316">
+                                <RadialGradientBrush.GradientStops>
+                                    <GradientStop Color="#CCFFFFFF" Offset="0"/>
+                                    <GradientStop Color="#4CC7EEFF" Offset="0.295559"/>
+                                    <GradientStop Color="#47242729" Offset="0.62634"/>
+                                    <GradientStop Color="#30D0F0FF" Offset="0.963247"/>
+                                </RadialGradientBrush.GradientStops>
+                                <RadialGradientBrush.RelativeTransform>
+                                    <TransformGroup>
+                                        <RotateTransform CenterX="0.188221" CenterY="-0.369316" Angle="90"/>
+                                    </TransformGroup>
+                                </RadialGradientBrush.RelativeTransform>
+                            </RadialGradientBrush>
+                        </GeometryDrawing.Brush>
+                    </GeometryDrawing>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <!-- ListView Header 样式 (Aero Glass 风格) -->
+    <Style x:Key="MediaListViewHeaderStyle" TargetType="GridViewColumnHeader">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="Margin" Value="-2"/>
+        <!-- 这个Margin很奇怪但千万不要动除非你是人类并且有把握修复好 -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridViewColumnHeader">
+                    <Grid>
+                        <!-- 底色层 (MediaListHeaderBrush) -->
+                        <Border Background="{StaticResource MediaListHeaderBrush}" />
+                        
+                        <!-- 高光层 (AeroHeaderOverlayBrush) -->
+                        <Border Background="{StaticResource AeroHeaderOverlayBrush}" />
+
+                        <!-- 边框和分割线 -->
+                        <Border BorderThickness="0,0,1,1" BorderBrush="#33FFFFFF"/>
+                        
+                        <!-- 右侧分割线高光 -->
+                        <Rectangle Width="1" HorizontalAlignment="Right" Fill="{StaticResource MediaListHeaderSeparatorBrush}" Margin="0,2,1,2"/>
+
+                        <!-- 悬停高光 -->
+                        <Border x:Name="HoverHighlight" Background="#20FFFFFF" Opacity="0"/>
+                        
+                        <!-- 按下高光 -->
+                        <Border x:Name="PressedHighlight" Background="#40FFFFFF" Opacity="0"/>
+
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          RecognizesAccessKey="True"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="HoverHighlight" Property="Opacity" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="PressedHighlight" Property="Opacity" Value="1"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 详细信息面板块样式 (基于 Designs/DropDownBackground.xaml) -->
+    <!-- 使用 Border 替代 DrawingBrush 以避免 Geometry 拉伸变形问题 -->
+    <!-- 调整渐变以匹配原设计的底部发光玻璃感，同时保证文字可读性 -->
+    <Style x:Key="MediaDetailBlockStyle" TargetType="Border">
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Margin" Value="0,0,0,12"/>
+        <Setter Property="Padding" Value="15,12"/>
+        <Setter Property="Background">
+            <Setter.Value>
+                <RadialGradientBrush Center="0.5,0" GradientOrigin="0.5,0" RadiusX="1.2" RadiusY="1.2">
+                    <!-- 顶部微亮高光 -->
+                    <GradientStop Color="#15FFFFFF" Offset="0"/>
+                    <!-- 中间透明度增加，显出底色 -->
+                    <GradientStop Color="#05FFFFFF" Offset="0.4"/>
+                    <!-- 底部再次变亮，模拟玻璃厚度反光 -->
+                    <GradientStop Color="#1AFFFFFF" Offset="0.8"/>
+                    <!-- 边缘高光 -->
+                    <GradientStop Color="#25FFFFFF" Offset="1"/>
+                </RadialGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <RadialGradientBrush Center="0.5,0" GradientOrigin="0.5,0" RadiusX="1.5" RadiusY="1.5">
+                    <!-- 顶部边框高光 -->
+                    <GradientStop Color="#60FFFFFF" Offset="0"/>
+                    <!-- 中间边框较暗 -->
+                    <GradientStop Color="#20FFFFFF" Offset="0.5"/>
+                    <!-- 底部边框再次变亮 -->
+                    <GradientStop Color="#50FFFFFF" Offset="1"/>
+                </RadialGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <!-- 添加阴影以增强层次感 -->
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="#FF000000" BlurRadius="10" ShadowDepth="3" Opacity="0.5"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 详细信息标题样式 -->
+    <Style x:Key="MediaDetailHeaderStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#FFFFFFFF"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="Margin" Value="0,0,0,10"/>
+        <!-- 添加文字发光效果，增强 Aero 质感 -->
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="#FF000000" BlurRadius="4" ShadowDepth="1" Opacity="0.8"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 详细信息标签样式 -->
+    <Style x:Key="MediaDetailLabelStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#99FFFFFF"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Margin" Value="0,3,10,3"/>
+    </Style>
+
+    <!-- 详细信息数值样式 -->
+    <Style x:Key="MediaDetailValueStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#FFFFFFFF"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Margin" Value="0,3"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="#FF000000" BlurRadius="2" ShadowDepth="1" Opacity="0.5"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 详细信息面板背景画刷 (提取自 Designs/DropDownBackground.xaml) -->
+    <DrawingBrush x:Key="InfoPanelBackgroundBrush" Stretch="Fill">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <DrawingGroup.Children>
+                    <!-- 调整 Geometry 以适应通用矩形，移除具体的尺寸限制，使用相对坐标或简单的矩形 -->
+                    <!-- 原 Geometry: F1 M 22,4L 1122,4C 1131.94,4 1140,12.0588 1140,21.9999L 1140,454C 1140,463.941 1131.94,472 1122,472L 22,472C 12.0588,472 4,463.941 4,454L 4,21.9999C 4,12.0588 12.0588,4 22,4 Z -->
+                    <!-- 简化为圆角矩形，保持原有风格 -->
+                    <GeometryDrawing Geometry="F1 M 10,0 L 100,0 C 105,0 110,5 110,10 L 110,100 C 110,105 105,110 100,110 L 10,110 C 5,110 0,105 0,100 L 0,10 C 0,5 5,0 10,0 Z">
+                        <GeometryDrawing.Pen>
+                            <Pen Thickness="2" StartLineCap="Round" EndLineCap="Round" LineJoin="Round">
+                                <Pen.Brush>
+                                    <RadialGradientBrush RadiusX="1.72783" RadiusY="1.72269" Center="0.5,0.0168067" GradientOrigin="0.5,0.0168067">
+                                        <RadialGradientBrush.GradientStops>
+                                            <GradientStop Color="#00FFFFFF" Offset="0"/>
+                                            <GradientStop Color="#FFFFFFFF" Offset="1"/>
+                                        </RadialGradientBrush.GradientStops>
+                                    </RadialGradientBrush>
+                                </Pen.Brush>
+                            </Pen>
+                        </GeometryDrawing.Pen>
+                        <GeometryDrawing.Brush>
+                            <RadialGradientBrush RadiusX="1.74" RadiusY="1.75214" Center="0.5,0.00854701" GradientOrigin="0.5,0.00854701">
+                                <RadialGradientBrush.GradientStops>
+                                    <GradientStop Color="#25FFFFFF" Offset="0"/>
+                                    <GradientStop Color="#00FFFFFF" Offset="0.185299"/>
+                                    <GradientStop Color="#1AFFFFFF" Offset="0.540582"/>
+                                    <GradientStop Color="#FFFFFFFF" Offset="1"/>
+                                </RadialGradientBrush.GradientStops>
+                            </RadialGradientBrush>
+                        </GeometryDrawing.Brush>
+                    </GeometryDrawing>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <!-- ListViewItem 样式 (使用更新后的 GeometryDrawing 和非线性动画) -->
+    <Style x:Key="MediaListViewItemStyle" TargetType="ListViewItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <!-- 增加高度到 80，以匹配参考图的宽敞感 -->
+        <Setter Property="Height" Value="80"/>
+        <!-- 调整字号到 14，以匹配参考图的可读性 -->
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <Grid>
+                        <!-- 悬停状态背景 -->
+                        <Rectangle x:Name="HoverBackground" 
+                                   Fill="{StaticResource MediaItemHoverBrush}"
+                                   Opacity="0"
+                                   RadiusX="4" RadiusY="4"
+                                   Stroke="#7F7E8DB3" StrokeThickness="2"/>
+                        
+                        <!-- 选中状态背景 -->
+                        <Rectangle x:Name="SelectionBackground" 
+                                   Fill="{StaticResource MediaItemSelectedBrush}"
+                                   Opacity="0"
+                                   RadiusX="4" RadiusY="4"
+                                   Stroke="#7F7E8DB3" StrokeThickness="2"/>
+                        
+                        <GridViewRowPresenter Content="{TemplateBinding Content}" Columns="{TemplateBinding GridView.ColumnCollection}" VerticalAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <!-- 选中状态触发器 -->
+                        <Trigger Property="IsSelected" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SelectionBackground" 
+                                                         Storyboard.TargetProperty="Opacity" 
+                                                         To="1" Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SelectionBackground" 
+                                                         Storyboard.TargetProperty="Opacity" 
+                                                         To="0" Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuadraticEase EasingMode="EaseIn"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+                        <!-- 悬停状态触发器 (仅在未选中时显示) -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsSelected" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="HoverBackground" 
+                                                         Storyboard.TargetProperty="Opacity" 
+                                                         To="1" Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <SineEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="HoverBackground" 
+                                                         Storyboard.TargetProperty="Opacity" 
+                                                         To="0" Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <SineEase EasingMode="EaseIn"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ============================================== -->
+    <!-- GridSplitter 样式 - Aero 风格透明渐显手柄 -->
+    <!-- 基于 Designs/GlassPipe.xaml 的玻璃管道效果 -->
+    <!-- 默认全透明，鼠标接近时渐渐显露 -->
+    <!-- ============================================== -->
+
+    <!-- GlassPipe 垂直方向画刷 (用于水平分隔条) -->
+    <!-- 修正 Geometry 使其居中：原始设计的路径从 x=8.5 开始导致偏移 -->
+    <DrawingBrush x:Key="GlassPipeVerticalBrush" Stretch="Fill" Viewbox="0,0,51,924" ViewboxUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Geometry="F1 M 8.49998,0.5L 42.4986,0.5C 46.9169,0.5 50.4986,4.08179 50.4986,8.5L 50.4986,915.496C 50.4986,919.915 46.9169,923.496 42.4986,923.496L 8.49998,923.496C 4.08171,923.496 0.499969,919.915 0.499969,915.496L 0.499969,8.5C 0.499969,4.08179 4.08171,0.5 8.49998,0.5 Z">
+                    <GeometryDrawing.Pen>
+                        <Pen LineJoin="Round">
+                            <Pen.Brush>
+                                <LinearGradientBrush StartPoint="-0.00276102,0.5" EndPoint="1.00277,0.5">
+                                    <GradientStop Color="#A7FFFFFF" Offset="0"/>
+                                    <GradientStop Color="#2DFFFFFF" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Pen.Brush>
+                        </Pen>
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Brush>
+                        <LinearGradientBrush StartPoint="-0.0128165,0.5" EndPoint="1.01282,0.5">
+                            <GradientStop Color="#7DFFFFFF" Offset="0"/>
+                            <GradientStop Color="#1A000000" Offset="0.467075"/>
+                            <GradientStop Color="#1FFFFFFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </GeometryDrawing.Brush>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <!-- GlassPipe 水平方向画刷 (用于垂直分隔条) -->
+    <DrawingBrush x:Key="GlassPipeHorizontalBrush" Stretch="Fill" Viewbox="0,0,924,51" ViewboxUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <DrawingGroup.Transform>
+                    <RotateTransform Angle="90" CenterX="462" CenterY="462"/>
+                </DrawingGroup.Transform>
+                <GeometryDrawing Geometry="F1 M 8.49998,0.5L 42.4986,0.5C 46.9169,0.5 50.4986,4.08179 50.4986,8.5L 50.4986,915.496C 50.4986,919.915 46.9169,923.496 42.4986,923.496L 8.49998,923.496C 4.08171,923.496 0.499969,919.915 0.499969,915.496L 0.499969,8.5C 0.499969,4.08179 4.08171,0.5 8.49998,0.5 Z">
+                    <GeometryDrawing.Pen>
+                        <Pen LineJoin="Round">
+                            <Pen.Brush>
+                                <LinearGradientBrush StartPoint="-0.00276102,0.5" EndPoint="1.00277,0.5">
+                                    <GradientStop Color="#A7FFFFFF" Offset="0"/>
+                                    <GradientStop Color="#2DFFFFFF" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Pen.Brush>
+                        </Pen>
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Brush>
+                        <LinearGradientBrush StartPoint="-0.0128165,0.5" EndPoint="1.01282,0.5">
+                            <GradientStop Color="#7DFFFFFF" Offset="0"/>
+                            <GradientStop Color="#1A000000" Offset="0.467075"/>
+                            <GradientStop Color="#1FFFFFFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </GeometryDrawing.Brush>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+    
+    <!-- 水平分隔条样式 (用于左右分隔) -->
+    <Style x:Key="AeroGridSplitterHorizontalStyle" TargetType="GridSplitter">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Cursor" Value="SizeWE"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridSplitter">
+                    <Border Background="Transparent">
+                        <!-- GlassPipe 玻璃管道效果 -->
+                        <Border x:Name="SplitterHandle"
+                                Width="6"
+                                Margin="0,4"
+                                CornerRadius="3"
+                                Opacity="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Stretch"
+                                Background="{StaticResource GlassPipeVerticalBrush}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SplitterHandle"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1" Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SplitterHandle"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0" Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuadraticEase EasingMode="EaseIn"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 垂直分隔条样式 (用于上下分隔) -->
+    <Style x:Key="AeroGridSplitterVerticalStyle" TargetType="GridSplitter">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Cursor" Value="SizeNS"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridSplitter">
+                    <Border Background="Transparent">
+                        <!-- GlassPipe 玻璃管道效果 (水平方向) -->
+                        <Border x:Name="SplitterHandle"
+                                Height="6"
+                                Margin="4,0"
+                                CornerRadius="3"
+                                Opacity="0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Background="{StaticResource GlassPipeHorizontalBrush}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SplitterHandle"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1" Duration="0:0:0.2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SplitterHandle"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0" Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuadraticEase EasingMode="EaseIn"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

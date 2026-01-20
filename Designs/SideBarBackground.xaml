@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="Layer_6" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Geometry="F1 M 8,-0.00012207L 1416,-0.00012207C 1420.42,-0.00012207 1424,3.58167 1424,7.99988L 1424,1116C 1424,1120.42 1420.42,1124 1416,1124L 8,1124C 3.58173,1124 0,1120.42 0,1116L 0,7.99988C 0,3.58167 3.58173,-0.00012207 8,-0.00012207 Z ">
+						<GeometryDrawing.Brush>
+							<LinearGradientBrush StartPoint="4.28618e-008,0.5" EndPoint="1,0.5">
+								<LinearGradientBrush.GradientStops>
+									<GradientStop Color="#2E110033" Offset="0"/>
+									<GradientStop Color="#423579FF" Offset="0.473201"/>
+									<GradientStop Color="#2E0C0024" Offset="1"/>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

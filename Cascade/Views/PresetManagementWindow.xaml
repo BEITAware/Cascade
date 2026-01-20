@@ -1,0 +1,126 @@
+<Window x:Class="Cascade.Views.PresetManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Cascade.ViewModels"
+        mc:Ignorable="d"
+        Title="{DynamicResource PresetManagement_Title}"
+        Height="500" Width="700"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize">
+
+    <Window.DataContext>
+        <vm:PresetManagementViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Cascade;component/Styles/AeroImplicitStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <!-- 背景 - 微调主页面背景，去除红紫色 -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FF0A0E1A" Offset="0"/>
+                <GradientStop Color="#FF1A2540" Offset="0.5"/>
+                <GradientStop Color="#FF0A0E1A" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 标题 -->
+            <TextBlock Grid.Row="0" 
+                       Text="{DynamicResource PresetManagement_Title}" 
+                       FontSize="20" 
+                       Foreground="White"
+                       Margin="0,0,0,20"/>
+
+            <!-- 预设列表 -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" 
+                           Text="{DynamicResource PresetManagement_AvailablePresets}" 
+                           FontSize="14" 
+                           Foreground="White"
+                           Margin="0,0,0,10"/>
+
+                <ListBox Grid.Row="1" 
+                         ItemsSource="{Binding Presets}"
+                         SelectedItem="{Binding SelectedPreset}"
+                         MinHeight="200"
+                         Margin="0,0,0,10"/>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="{DynamicResource PresetManagement_Load}" 
+                            Command="{Binding LoadPresetCommand}"
+                            Width="100" Margin="0,0,10,0"/>
+                    <Button Content="{DynamicResource PresetManagement_Delete}" 
+                            Command="{Binding DeletePresetCommand}"
+                            Width="100" Margin="0,0,10,0"/>
+                    <Button Content="{DynamicResource PresetManagement_Refresh}" 
+                            Command="{Binding RefreshCommand}"
+                            Width="100"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- 保存新预设 -->
+            <Grid Grid.Row="2" Margin="0,20,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" 
+                           Text="{DynamicResource PresetManagement_SaveCurrent}" 
+                           FontSize="14" 
+                           Foreground="White"
+                           Margin="0,0,0,10"/>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" 
+                             Text="{Binding NewPresetName, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,10,0"
+                             VerticalContentAlignment="Center"/>
+
+                    <Button Grid.Column="1" 
+                            Content="{DynamicResource PresetManagement_Save}" 
+                            Command="{Binding SaveCurrentAsPresetCommand}"
+                            Width="100"/>
+                </Grid>
+            </Grid>
+
+            <!-- 状态栏 -->
+            <Border Grid.Row="3" 
+                    Margin="0,20,0,0"
+                    Padding="10"
+                    Background="#20FFFFFF"
+                    CornerRadius="3">
+                <TextBlock Text="{Binding StatusMessage}" 
+                           Foreground="White"
+                           TextWrapping="Wrap"/>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

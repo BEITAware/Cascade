@@ -1,0 +1,213 @@
+<UserControl x:Class="Cascade.Views.Operations.FFmpeg.VideoEncoderStrategyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Cascade.Views.Operations.FFmpeg"
+             xmlns:vm="clr-namespace:Cascade.ViewModels.Operations.FFmpeg"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="520"
+             Foreground="White">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Cascade;component/Styles/AeroControls.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16">
+
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <!-- 第一分组：编码器 -->
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <TextBlock Text="{DynamicResource VideoEncoder_Encoder}" FontSize="14" FontWeight="SemiBold" Foreground="#FF61D1F0" Margin="0,12,0,8"/>
+            
+            <!-- 编码格式与编码器选择 -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                <!-- 编码器选择（左侧，仅非复制流时显示） -->
+                <StackPanel Visibility="{Binding ShowEncoderSelector, Converter={StaticResource BoolToVisibility}}" Margin="0,0,12,0">
+                    <ComboBox Width="120" Height="28"
+                              ItemsSource="{Binding AvailableEncoders}"
+                              SelectedIndex="{Binding SelectedEncoderIndex}"/>
+                    <TextBlock Text="{DynamicResource VideoEncoder_Encoder}" FontSize="10" Foreground="#99FFFFFF" Margin="4,2,0,0"/>
+                </StackPanel>
+                <!-- 编码格式选择（右侧） -->
+                <StackPanel>
+                    <ComboBox Width="140" Height="28"
+                              SelectedIndex="{Binding SelectedCodecIndex}">
+                        <ComboBoxItem Content="{DynamicResource VideoEncoder_CopyInputStream}"/>
+                        <ComboBoxItem Content="AVC/H.264"/>
+                        <ComboBoxItem Content="HEVC/H.265"/>
+                        <ComboBoxItem Content="VVC/H.266"/>
+                        <ComboBoxItem Content="AV1"/>
+                        <ComboBoxItem Content="VP9"/>
+                        <ComboBoxItem Content="ProRes"/>
+                        <ComboBoxItem Content="{DynamicResource VideoEncoder_Uncompressed}"/>
+                    </ComboBox>
+                    <TextBlock Text="{DynamicResource VideoEncoder_Encoding}" FontSize="10" Foreground="#99FFFFFF" Margin="4,2,0,0"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- 预设 -->
+            <StackPanel Visibility="{Binding ShowPresetSlider, Converter={StaticResource BoolToVisibility}}" Margin="0,12,0,0">
+                <TextBlock Text="{DynamicResource VideoEncoder_Preset}" FontSize="12" Foreground="#CCFFFFFF" Margin="0,0,0,4"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding PresetMinLabel}" FontSize="10" Foreground="#99FFFFFF" VerticalAlignment="Center" Width="80"/>
+                    <Slider Grid.Column="1" Minimum="0" Maximum="{Binding PresetMaxValue}" 
+                            Value="{Binding PresetValue}"
+                            TickPlacement="BottomRight"
+                            IsSnapToTickEnabled="True"
+                            TickFrequency="1"
+                            Margin="8,0"/>
+                    <TextBlock Grid.Column="2" Text="{Binding PresetMaxLabel}" FontSize="10" Foreground="#99FFFFFF" VerticalAlignment="Center" Width="80" TextAlignment="Right"/>
+                </Grid>
+                <TextBlock HorizontalAlignment="Center" Margin="0,4,0,0" FontSize="11" Foreground="White" Text="{Binding CurrentPresetLabel}"/>
+            </StackPanel>
+
+            <!-- 微调 -->
+            <StackPanel Visibility="{Binding ShowTuneSelector, Converter={StaticResource BoolToVisibility}}" Margin="0,12,0,0">
+                <TextBlock Text="{DynamicResource VideoEncoder_Tune}" FontSize="12" Foreground="#CCFFFFFF" Margin="0,0,0,4"/>
+                <ComboBox Width="180" Height="28" HorizontalAlignment="Left"
+                          ItemsSource="{Binding AvailableTunes}"
+                          SelectedIndex="{Binding SelectedTuneIndex}"/>
+            </StackPanel>
+
+            <!-- 配置文件(Profile) -->
+            <StackPanel Visibility="{Binding ShowProfileSlider, Converter={StaticResource BoolToVisibility}}" Margin="0,12,0,0">
+                <TextBlock Text="{DynamicResource VideoEncoder_Profile}" FontSize="12" Foreground="#CCFFFFFF" Margin="0,0,0,4"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Baseline" FontSize="10" Foreground="#99FFFFFF" VerticalAlignment="Center"/>
+                    <Slider Grid.Column="1" Minimum="0" Maximum="{Binding ProfileMaxValue}" 
+                            Value="{Binding ProfileValue}"
+                            TickPlacement="BottomRight"
+                            IsSnapToTickEnabled="True"
+                            TickFrequency="1"
+                            Margin="8,0"/>
+                    <TextBlock Grid.Column="2" Text="High" FontSize="10" Foreground="#99FFFFFF" VerticalAlignment="Center"/>
+                </Grid>
+                <TextBlock HorizontalAlignment="Center" Margin="0,4,0,0" FontSize="11" Foreground="White" Text="{Binding CurrentProfileLabel}"/>
+            </StackPanel>
+
+            <!-- 像素格式 -->
+            <StackPanel Visibility="{Binding ShowPixelFormat, Converter={StaticResource BoolToVisibility}}" Margin="0,12,0,0">
+                <TextBlock Text="{DynamicResource VideoEncoder_PixelFormat}" FontSize="12" Foreground="#CCFFFFFF" Margin="0,0,0,4"/>
+                <ComboBox Width="140" Height="28" HorizontalAlignment="Left"
+                          ItemsSource="{Binding AvailablePixelFormats}"
+                          SelectedIndex="{Binding SelectedPixelFormatIndex}"/>
+            </StackPanel>
+
+            <!-- 等级(Level) -->
+            <StackPanel Visibility="{Binding ShowLevelSlider, Converter={StaticResource BoolToVisibility}}" Margin="0,12,0,0">
+                <TextBlock Text="{DynamicResource VideoEncoder_Level}" FontSize="12" Foreground="#CCFFFFFF" Margin="0,0,0,4"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{DynamicResource VideoEncoder_Auto}" FontSize="10" Foreground="#99FFFFFF" VerticalAlignment="Center"/>
+                    <Slider Grid.Column="1" Minimum="0" Maximum="{Binding LevelMaxValue}" 
+                            Value="{Binding LevelValue}"
+                            TickPlacement="BottomRight"
+                            IsSnapToTickEnabled="True"
+                            TickFrequency="1"
+                            Margin="8,0"/>
+                    <TextBlock Grid.Column="2" Text="{Binding LevelMaxLabel}" FontSize="10" Foreground="#99FFFFFF" VerticalAlignment="Center"/>
+                </Grid>
+                <TextBlock HorizontalAlignment="Center" Margin="0,4,0,0" FontSize="11" Foreground="White" Text="{Binding CurrentLevelLabel}"/>
+            </StackPanel>
+
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <!-- 第二分组：码率与质量 -->
+            <!-- ═══════════════════════════════════════════════════════════════════════ -->
+            <TextBlock Text="{DynamicResource VideoEncoder_RateAndQuality}" FontSize="14" FontWeight="SemiBold" Foreground="#FF61D1F0" Margin="0,20,0,8"
+                       Visibility="{Binding ShowRateControl, Converter={StaticResource BoolToVisibility}}"/>
+            
+            <StackPanel Visibility="{Binding ShowRateControl, Converter={StaticResource BoolToVisibility}}">
+                <!-- 模式选择 -->
+                <TextBlock Text="{DynamicResource VideoEncoder_Mode}" FontSize="12" Foreground="#CCFFFFFF" Margin="0,0,0,4"/>
+                <ComboBox Width="180" Height="28" HorizontalAlignment="Left"
+                          SelectedIndex="{Binding SelectedRateModeIndex}">
+                    <ComboBoxItem Content="{DynamicResource VideoEncoder_CRF}"/>
+                    <ComboBoxItem Content="{DynamicResource VideoEncoder_TwoPassTargetBitrate}"/>
+                    <ComboBoxItem Content="{DynamicResource VideoEncoder_CBR}"/>
+                    <ComboBoxItem Content="{DynamicResource VideoEncoder_ABR}"/>
+                    <ComboBoxItem Content="{DynamicResource VideoEncoder_CQP}"/>
+                </ComboBox>
+
+                <!-- CRF模式：滑块 + 数值框 -->
+                <StackPanel Visibility="{Binding IsCrfMode, Converter={StaticResource BoolToVisibility}}" Margin="0,12,0,0">
+                    <TextBlock Text="{DynamicResource VideoEncoder_CRFValue}" FontSize="12" Foreground="#CCFFFFFF" Margin="0,0,0,4"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Slider Width="200" Minimum="0" Maximum="51" 
+                                Value="{Binding CrfValue}"
+                                TickPlacement="BottomRight"
+                                TickFrequency="5"
+                                IsSnapToTickEnabled="False"/>
+                        <TextBox Width="50" Height="26" Margin="12,0,0,0"
+                                 Text="{Binding CrfValue, UpdateSourceTrigger=PropertyChanged}"
+                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock FontSize="10" Foreground="#99FFFFFF" Margin="0,4,0,0">
+                        <Run Text="默认值: "/>
+                        <Run Text="{Binding DefaultCrfValue, Mode=OneWay}"/>
+                        <Run Text=" (值越小质量越高，文件越大)"/>
+                    </TextBlock>
+                </StackPanel>
+
+                <!-- 码率模式：数值框 -->
+                <StackPanel Visibility="{Binding IsBitrateMode, Converter={StaticResource BoolToVisibility}}" Margin="0,12,0,0">
+                    <TextBlock Text="{DynamicResource VideoEncoder_TargetBitrate}" FontSize="12" Foreground="#CCFFFFFF" Margin="0,0,0,4"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Width="100" Height="26"
+                                 Text="{Binding TargetBitrate, UpdateSourceTrigger=PropertyChanged}"
+                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <TextBlock Text="kbps" FontSize="12" Foreground="#CCFFFFFF" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 硬件编码CQP模式：三个数值框 -->
+                <StackPanel Visibility="{Binding IsCqpMode, Converter={StaticResource BoolToVisibility}}" Margin="0,12,0,0">
+                    <TextBlock Text="{DynamicResource VideoEncoder_HardwareCQP}" FontSize="12" Foreground="#CCFFFFFF" Margin="0,0,0,8"/>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel>
+                            <TextBox Width="60" Height="26"
+                                     Text="{Binding QpI, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <TextBlock Text="I-QP" FontSize="10" Foreground="#99FFFFFF" Margin="4,2,0,0" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="16,0,0,0">
+                            <TextBox Width="60" Height="26"
+                                     Text="{Binding QpP, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <TextBlock Text="P-QP" FontSize="10" Foreground="#99FFFFFF" Margin="4,2,0,0" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Margin="16,0,0,0">
+                            <TextBox Width="60" Height="26"
+                                     Text="{Binding QpB, UpdateSourceTrigger=PropertyChanged}"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <TextBlock Text="B-QP" FontSize="10" Foreground="#99FFFFFF" Margin="4,2,0,0" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- 底部间距 -->
+            <Border Height="20"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

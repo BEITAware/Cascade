@@ -1,6 +1,3 @@
 <Solution>
   <Project Path="Cascade/Cascade.csproj" />
-  <Project Path="Cascade.Tests/Cascade.Tests.csproj" />
-  <Project Path="Cascade.Avalonia/Cascade.Avalonia.csproj" />
-  <Project Path="Cascade.Avalonia.Tests/Cascade.Avalonia.Tests.csproj" />
 </Solution>

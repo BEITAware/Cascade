@@ -1,6 +1,6 @@
 <div align="center">
 
-![Cascade Hero](../Designs/CascadeHeroImage.png)
+![Cascade Hero](Designs/CascadeHeroImage.png)
 
 # Cascade
 

@@ -73,7 +73,7 @@ jobs:
     
     - name: Create Release archive
       run: |
-        Compress-Archive -Path "Release/*" -DestinationPath "Cascade-Release.zip"
+        Compress-Archive -Path "Release" -DestinationPath "Cascade-Release.zip"
     
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
@@ -81,7 +81,6 @@ jobs:
       with:
         files: |
           Cascade-Release.zip
-          Release/BEITAQuick.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     

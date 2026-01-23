@@ -28,6 +28,24 @@ jobs:
             -p:IncludeNativeLibrariesForSelfExtract=true `
             -o build\Cascade
 
+      - name: Download FFmpeg (latest) and add to Libs
+        run: |
+          $ffmpegUrl = "https://github.com/BtbN/FFmpeg-Builds/releases/latest/download/ffmpeg-master-latest-win64-gpl.zip"
+          $ffmpegZip = "ffmpeg-latest.zip"
+          $ffmpegExtract = "ffmpeg-latest"
+          if (Test-Path $ffmpegZip) { Remove-Item $ffmpegZip -Force }
+          if (Test-Path $ffmpegExtract) { Remove-Item $ffmpegExtract -Recurse -Force }
+          Invoke-WebRequest -Uri $ffmpegUrl -OutFile $ffmpegZip
+          Expand-Archive -Path $ffmpegZip -DestinationPath $ffmpegExtract
+          $root = Get-ChildItem -Path $ffmpegExtract -Directory | Select-Object -First 1
+          if (-not $root) { throw "FFmpeg archive extraction failed." }
+          $bin = Join-Path $root.FullName "bin"
+          if (-not (Test-Path $bin)) { throw "FFmpeg bin folder not found." }
+          New-Item -ItemType Directory -Force -Path "build\Cascade\Libs" | Out-Null
+          Copy-Item -Path (Join-Path $bin "ffmpeg.exe") -Destination "build\Cascade\Libs" -Force
+          Copy-Item -Path (Join-Path $bin "ffplay.exe") -Destination "build\Cascade\Libs" -Force
+          Copy-Item -Path (Join-Path $bin "ffprobe.exe") -Destination "build\Cascade\Libs" -Force
+
       - name: Build release folder
         run: |
           $version = "${{ github.ref_name }}"

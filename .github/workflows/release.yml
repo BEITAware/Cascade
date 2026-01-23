@@ -17,6 +17,16 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Download FFmpeg (latest)
+        run: |
+          $ffmpegUrl = "https://github.com/BtbN/FFmpeg-Builds/releases/latest/download/ffmpeg-master-latest-win64-gpl.zip"
+          $ffmpegZip = "ffmpeg-latest.zip"
+          $ffmpegExtract = "ffmpeg-latest"
+          if (Test-Path $ffmpegZip) { Remove-Item $ffmpegZip -Force }
+          if (Test-Path $ffmpegExtract) { Remove-Item $ffmpegExtract -Recurse -Force }
+          Invoke-WebRequest -Uri $ffmpegUrl -OutFile $ffmpegZip
+          Expand-Archive -Path $ffmpegZip -DestinationPath $ffmpegExtract
+
       - name: Publish Cascade (single-file ReadyToRun)
         run: |
           dotnet publish Cascade/Cascade.csproj `
@@ -28,15 +38,9 @@ jobs:
             -p:IncludeNativeLibrariesForSelfExtract=true `
             -o build\Cascade
 
-      - name: Download FFmpeg (latest) and add to Libs
+      - name: Add FFmpeg to Libs folder
         run: |
-          $ffmpegUrl = "https://github.com/BtbN/FFmpeg-Builds/releases/latest/download/ffmpeg-master-latest-win64-gpl.zip"
-          $ffmpegZip = "ffmpeg-latest.zip"
           $ffmpegExtract = "ffmpeg-latest"
-          if (Test-Path $ffmpegZip) { Remove-Item $ffmpegZip -Force }
-          if (Test-Path $ffmpegExtract) { Remove-Item $ffmpegExtract -Recurse -Force }
-          Invoke-WebRequest -Uri $ffmpegUrl -OutFile $ffmpegZip
-          Expand-Archive -Path $ffmpegZip -DestinationPath $ffmpegExtract
           $root = Get-ChildItem -Path $ffmpegExtract -Directory | Select-Object -First 1
           if (-not $root) { throw "FFmpeg archive extraction failed." }
           $bin = Join-Path $root.FullName "bin"

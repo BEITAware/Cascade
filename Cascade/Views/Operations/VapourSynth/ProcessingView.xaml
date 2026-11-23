@@ -1,0 +1,40 @@
+<UserControl x:Class="Cascade.Views.Operations.VapourSynth.ProcessingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Foreground="White">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Cascade;component/Styles/AeroControls.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="16">
+            <TextBlock Text="{DynamicResource VS_Processing}" FontSize="14" FontWeight="SemiBold"
+                       Foreground="#FF61D1F0" Margin="0,12,0,8"/>
+            <CheckBox Content="{DynamicResource VS_Enable}" IsChecked="{Binding UseVapourSynth}"/>
+            <TextBlock Text="{DynamicResource VS_Requirements}" TextWrapping="Wrap"
+                       FontSize="10" Foreground="#99FFFFFF" Margin="4,4,0,12"/>
+            <StackPanel IsEnabled="{Binding UseVapourSynth}">
+                <TextBlock Text="{DynamicResource VS_Depth}" Margin="0,0,0,4"/>
+                <ComboBox SelectedIndex="{Binding DepthIndex}" Width="160" Height="28" HorizontalAlignment="Left">
+                    <ComboBoxItem Content="8-bit"/>
+                    <ComboBoxItem Content="10-bit"/>
+                </ComboBox>
+                <TextBlock Text="{DynamicResource VS_Blur}" Margin="0,12,0,4"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Width="160" Minimum="0" Maximum="8" TickFrequency="1" IsSnapToTickEnabled="True"
+                            Value="{Binding BlurRadius}"/>
+                    <TextBlock Text="{Binding BlurRadius}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                </StackPanel>
+                <TextBlock Text="{DynamicResource VS_Threads}" Margin="0,12,0,4"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider Width="160" Minimum="0" Maximum="32" TickFrequency="1" IsSnapToTickEnabled="True"
+                            Value="{Binding Threads}"/>
+                    <TextBlock Text="{Binding Threads}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

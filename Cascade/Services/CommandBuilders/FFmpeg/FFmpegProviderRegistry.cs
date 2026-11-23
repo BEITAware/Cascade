@@ -26,6 +26,7 @@ namespace Cascade.Services.CommandBuilders.FFmpeg
         {
             Register(new InputFileSegmentProvider());
             Register(new VideoEncoderSegmentProvider());
+            Register(new AudioEncoderSegmentProvider());
             Register(new VideoFilterSegmentProvider());
             Register(new OutputOptionsSegmentProvider());
             Register(new OutputFileSegmentProvider());

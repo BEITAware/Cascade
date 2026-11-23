@@ -49,22 +49,6 @@ namespace Cascade.Services.CommandBuilders.FFmpeg
         {
             Log("Starting command generation...");
 
-            // 检查输出路径
-            var outputPath = context.GetData<string>("cascade-io-naming-output", "outputPath");
-            if (string.IsNullOrWhiteSpace(outputPath))
-            {
-                Log("Output path is missing or empty.");
-                var result = new ValidationResult();
-                result.AddError("Output path is not set.");
-                return new CommandResult
-                {
-                    Backend = SupportedBackend,
-                    Content = string.Empty,
-                    ValidationResult = result,
-                    PreviewText = string.Empty
-                };
-            }
-
             var segments = new List<CommandSegment>();
             var validationResult = new ValidationResult();
             
@@ -90,6 +74,7 @@ namespace Cascade.Services.CommandBuilders.FFmpeg
                         try
                         {
                             var segment = provider.GenerateSegment(context);
+                            validationResult.Merge(provider.ValidateConfiguration(context));
                             if (segment.IsValid && !string.IsNullOrEmpty(segment.Parameters))
                             {
                                 segments.Add(segment);
@@ -99,10 +84,7 @@ namespace Cascade.Services.CommandBuilders.FFmpeg
                             {
                                 validationResult.AddError($"Segment {segmentType}: {segment.ValidationMessage}");
                             }
-                            
-                            // 合并验证结果
-                            var segmentValidation = provider.ValidateConfiguration(context);
-                            validationResult.Merge(segmentValidation);
+
                         }
                         catch (Exception ex)
                         {
@@ -112,22 +94,7 @@ namespace Cascade.Services.CommandBuilders.FFmpeg
                     }
                 }
                 
-                // 组装命令
-                var commandLine = "ffmpeg";
-                if (segments.Any())
-                {
-                    commandLine += " " + string.Join(" ", segments.Select(s => s.Parameters));
-                }
-                
-                Log("Command generation completed successfully.");
-
-                return new CommandResult
-                {
-                    Backend = SupportedBackend,
-                    Content = commandLine,
-                    ValidationResult = validationResult,
-                    PreviewText = string.Empty // Preview will be generated separately when needed
-                };
+                return AssembleCommand(context, segments, validationResult);
             }
             catch (Exception ex)
             {
@@ -141,6 +108,16 @@ namespace Cascade.Services.CommandBuilders.FFmpeg
                     PreviewText = string.Empty
                 };
             }
+        }
+
+        protected virtual CommandResult AssembleCommand(OperationContext context, List<CommandSegment> segments, ValidationResult validation)
+        {
+            return new CommandResult
+            {
+                Backend = SupportedBackend,
+                Content = string.Join(" ", new[] { "ffmpeg" }.Concat(segments.Select(s => s.Parameters))),
+                ValidationResult = validation
+            };
         }
 
         private void Log(string message)

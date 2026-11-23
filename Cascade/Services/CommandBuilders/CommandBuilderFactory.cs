@@ -23,7 +23,7 @@ namespace Cascade.Services.CommandBuilders
         private void RegisterDefaultBuilders()
         {
             RegisterBuilder(BackendType.FFmpeg, () => new FFmpeg.FFmpegCommandBuilder());
-            // 未来扩展: RegisterBuilder(BackendType.VapourSynth, () => new VapourSynth.VapourSynthScriptBuilder());
+            RegisterBuilder(BackendType.VapourSynth, () => new Services.VapourSynth.VapourSynthCommandBuilder());
         }
         
         /// <summary>

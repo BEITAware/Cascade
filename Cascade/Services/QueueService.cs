@@ -18,6 +18,7 @@ namespace Cascade.Services
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public MediaItem MediaItem { get; set; }
+        public VapourSynth.VapourSynthJob? VapourSynthJob { get; set; }
         public string Command { get; set; }
         public string OutputPath { get; set; }
         public QueueTaskStatus Status { get; set; } = QueueTaskStatus.Waiting;
@@ -374,7 +375,16 @@ namespace Cascade.Services
 #endif
 
                 // 执行FFmpeg命令
-                var success = await ExecuteFFmpegCommandAsync(task, cancellationToken);
+                bool success;
+                if (task.VapourSynthJob is { } processing)
+                {
+                    await processing.RunAsync(line => UpdateProgress(line, task), cancellationToken);
+                    success = true;
+                }
+                else
+                {
+                    success = await ExecuteFFmpegCommandAsync(task, cancellationToken);
+                }
 
                 if (success)
                 {
@@ -529,12 +539,7 @@ namespace Cascade.Services
                             System.Diagnostics.Debug.WriteLine($"[STDERR] {e.Data}");
 #endif
                             // 解析FFmpeg输出以获取进度
-                            var progress = ParseFFmpegProgress(e.Data, task);
-                            if (progress >= 0)
-                            {
-                                task.Progress = progress;
-                                TaskProgressUpdated?.Invoke(this, task);
-                            }
+                            UpdateProgress(e.Data, task);
                         }
                     };
 
@@ -628,6 +633,16 @@ namespace Cascade.Services
         /// <summary>
         /// 解析FFmpeg输出以获取进度
         /// </summary>
+        private void UpdateProgress(string line, QueueTask task)
+        {
+            var progress = ParseFFmpegProgress(line, task);
+            if (progress >= 0)
+            {
+                task.Progress = progress;
+                TaskProgressUpdated?.Invoke(this, task);
+            }
+        }
+
         private double ParseFFmpegProgress(string output, QueueTask task)
         {
             try

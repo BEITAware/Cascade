@@ -11,6 +11,8 @@ namespace Cascade.Services.CommandBuilders
         /// 后端类型
         /// </summary>
         public BackendType Backend { get; set; }
+
+        public Services.VapourSynth.VapourSynthJob? VapourSynthJob { get; set; }
         
         /// <summary>
         /// 命令行或脚本内容

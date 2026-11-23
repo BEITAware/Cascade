@@ -255,6 +255,11 @@
     <system:String x:Key="MuxingDelivery_FormatContainer">格式与容器</system:String>
     <system:String x:Key="MuxingDelivery_WebOptimized">网络优化</system:String>
     <system:String x:Key="MuxingDelivery_HeaderCompression">头部压缩</system:String>
+    <system:String x:Key="MuxingDelivery_Audio">音轨处理</system:String>
+    <system:String x:Key="MuxingDelivery_AudioAuto">容器默认编码</system:String>
+    <system:String x:Key="MuxingDelivery_AudioCopy">复制原始音轨</system:String>
+    <system:String x:Key="MuxingDelivery_AudioNone">移除音轨</system:String>
+    <system:String x:Key="MuxingDelivery_AacBitrate">AAC 码率（kb/s）</system:String>
     
     <!-- 视频编码器名称 -->
     <!-- H.264 编码器 -->
@@ -373,4 +378,15 @@
     <system:String x:Key="Queue_ConfirmRemove_Title">确认移除</system:String>
     <system:String x:Key="Queue_EstimatedRemaining">预计剩余</system:String>
     
+    <system:String x:Key="VS_Processing">视频帧处理</system:String>
+    <system:String x:Key="VS_Enable">使用 VapourSynth 处理视频</system:String>
+    <system:String x:Key="VS_Requirements">需要 VSPipe 和 FFMS2 源插件。请在 FFmpeg 中选择视频编码器。帧管道以恒定帧率输出。</system:String>
+    <system:String x:Key="VS_Depth">处理位深</system:String>
+    <system:String x:Key="VS_Blur">方框模糊半径（0 表示关闭）</system:String>
+    <system:String x:Key="VS_Threads">工作线程数（0 表示自动）</system:String>
+    <system:String x:Key="VS_ChooseEncoder">请先在 FFmpeg 中选择视频编码器。VapourSynth 处理后的画面需要重新编码。</system:String>
+    <system:String x:Key="VS_InvalidSettings">VapourSynth 参数超出了允许范围。</system:String>
+    <system:String x:Key="VS_SourceIsOutput">请为输出选择其他路径，以保留源视频。</system:String>
+    <system:String x:Key="VS_OutputExists">输出文件已存在。</system:String>
+    <system:String x:Key="VS_ToolError">请将工具加入 PATH 或放入 Cascade 的 Libs 文件夹。</system:String>
 </ResourceDictionary>

@@ -111,6 +111,14 @@ namespace Cascade.Services.CascadeIO
     /// </summary>
     public class OutputPathResolver
     {
+        // Current operation pages publish property names; older presets can contain camel-case keys.
+        internal static string GetNamingSetting(OperationContext context, string key, string fallback = "")
+        {
+            const string page = "cascade-io-naming-output";
+            var legacyKey = char.ToLowerInvariant(key[0]) + key[1..];
+            return context.GetData<string>(page, key) ?? context.GetData<string>(page, legacyKey) ?? fallback;
+        }
+
         /// <summary>
         /// 解析单个输入文件的输出路径
         /// </summary>
@@ -138,11 +146,11 @@ namespace Cascade.Services.CascadeIO
 
                 // 获取配置
                 var outputMode = (OutputMode)context.GetData<int>("cascade-io-naming-output", "SelectedOutputModeIndex", 0);
-                var outputPath = context.GetData<string>("cascade-io-naming-output", "outputPath", string.Empty);
-                var subdirectoryName = context.GetData<string>("cascade-io-naming-output", "subdirectoryName", "output");
-                var outputFileName = context.GetData<string>("cascade-io-naming-output", "outputFileName", string.Empty);
+                var outputPath = OutputPathResolver.GetNamingSetting(context, "OutputPath");
+                var subdirectoryName = OutputPathResolver.GetNamingSetting(context, "SubdirectoryName", "output");
+                var outputFileName = OutputPathResolver.GetNamingSetting(context, "OutputFileName");
                 var conflictResolution = (ConflictResolution)context.GetData<int>("cascade-io-naming-output", "SelectedConflictResolutionIndex", 0);
-                var customSuffix = context.GetData<string>("cascade-io-naming-output", "customSuffix", "_copy");
+                var customSuffix = OutputPathResolver.GetNamingSetting(context, "CustomSuffix", "_copy");
 
                 // 确定输出目录
                 string outputDirectory = DetermineOutputDirectory(inputFilePath, outputMode, outputPath, subdirectoryName);
@@ -335,8 +343,8 @@ namespace Cascade.Services.CascadeIO
             try
             {
                 var outputMode = (OutputMode)context.GetData<int>("cascade-io-naming-output", "SelectedOutputModeIndex", 0);
-                var outputPath = context.GetData<string>("cascade-io-naming-output", "outputPath", string.Empty);
-                var subdirectoryName = context.GetData<string>("cascade-io-naming-output", "subdirectoryName", "output");
+                var outputPath = OutputPathResolver.GetNamingSetting(context, "OutputPath");
+                var subdirectoryName = OutputPathResolver.GetNamingSetting(context, "SubdirectoryName", "output");
 
                 // 验证输出模式
                 if (outputMode == OutputMode.SpecifiedDirectory || outputMode == OutputMode.CloneStructure)

@@ -111,6 +111,17 @@ namespace Cascade.Services.CommandBuilders.FFmpeg.Providers
                 // 像素格式 (Pixel Format) - 需要先获取，因为profile依赖它
                 var pixelFormatIndex = context.GetData<int>("ffmpeg-video-encoder-strategy", "SelectedPixelFormatIndex");
                 
+                // Y4M carries the processing precision. Select a matching 4:2:0 format
+                // before deriving the H.26x profile; hardware AVC commonly accepts only 8-bit.
+                if (context.SelectedBackend == BackendType.VapourSynth && pixelFormatIndex == 0 && codecIndex is 1 or 2)
+                {
+                    var tenBit = context.GetData<int>(VapourSynth.VapourSynthCommandBuilder.PageId, "DepthIndex") == 1;
+                    if (encoderIndex == 0)
+                        pixelFormatIndex = tenBit ? 2 : 1; // yuv420p10le / yuv420p
+                    else
+                        pixelFormatIndex = tenBit && codecIndex == 2 ? 8 : 7; // p010le / nv12
+                }
+
                 // 配置文件 (Profile) - 注意：libvvenc不支持profile参数
                 if (codecIndex >= 1 && codecIndex <= 2) // H.264/H.265 only
                 {
@@ -283,6 +294,9 @@ namespace Cascade.Services.CommandBuilders.FFmpeg.Providers
                 // 根据像素格式自动调整profile
                 var pixelFormat = GetPixelFormat(pixelFormatIndex);
                 
+                if (pixelFormat == "yuv420p10le" || pixelFormat == "p010le")
+                    return "high10";
+
                 // 检测是否为4:4:4格式
                 if (pixelFormat == "yuv444p" || pixelFormat == "yuv444p10le")
                 {
@@ -330,7 +344,7 @@ namespace Cascade.Services.CommandBuilders.FFmpeg.Providers
                     // 4:4:4格式使用main444 profile
                     return profileValue switch
                     {
-                        0 => "main444-8",  // baseline → main444-8
+                        0 => pixelFormat == "yuv444p10le" ? "main444-10" : "main444-8",
                         1 => "main444-10", // main → main444-10
                         2 => "main444-10", // high → main444-10
                         _ => ""

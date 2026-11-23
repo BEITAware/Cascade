@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Cascade.Models;
-using Cascade.Services.CommandBuilders;
-using Cascade.ViewModels.Operations;
 
 namespace Cascade.Services
 {
@@ -49,12 +46,11 @@ namespace Cascade.Services
         private static QueueService? _instance;
         private static readonly object _lock = new object();
 
-        private readonly ConcurrentQueue<QueueTask> _taskQueue = new ConcurrentQueue<QueueTask>();
         private readonly List<QueueTask> _allTasks = new List<QueueTask>();
-        private readonly SemaphoreSlim _semaphore;
+        private int _activeTaskCount;
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         
-        private bool _isRunning = false;
+        private volatile bool _isRunning = false;
         private int _maxConcurrentTasks = 4;
 
         /// <summary>
@@ -88,10 +84,7 @@ namespace Cascade.Services
         /// </summary>
         public event EventHandler<QueueTask>? TaskProgressUpdated;
 
-        private QueueService()
-        {
-            _semaphore = new SemaphoreSlim(_maxConcurrentTasks, _maxConcurrentTasks);
-        }
+        private QueueService() { }
 
         /// <summary>
         /// 最大并行任务数
@@ -103,7 +96,8 @@ namespace Cascade.Services
             {
                 if (value > 0 && value <= 16)
                 {
-                    _maxConcurrentTasks = value;
+                    lock (_allTasks) _maxConcurrentTasks = value;
+                    DispatchWaitingTasks();
                 }
             }
         }
@@ -133,8 +127,8 @@ namespace Cascade.Services
             {
                 _allTasks.Add(task);
             }
-            _taskQueue.Enqueue(task);
             TaskStatusChanged?.Invoke(this, task);
+            DispatchWaitingTasks();
         }
 
         /// <summary>
@@ -291,68 +285,49 @@ namespace Cascade.Services
         /// </summary>
         public void Start()
         {
-            if (_isRunning) return;
-
-            _isRunning = true;
-            Task.Run(() => ProcessQueueAsync(_cancellationTokenSource.Token));
-            
+            lock (_allTasks)
+            {
+                if (_isRunning) return;
+                _isRunning = true;
+            }
+            DispatchWaitingTasks();
             NotificationService.SendInformation("Queue_Started", true);
         }
 
-        /// <summary>
-        /// 暂停队列处理
-        /// </summary>
         public void Pause()
         {
-            _isRunning = false;
+            lock (_allTasks) _isRunning = false;
             NotificationService.SendInformation("Queue_Paused", true);
         }
 
-        /// <summary>
-        /// 处理队列
-        /// </summary>
-        private async Task ProcessQueueAsync(CancellationToken cancellationToken)
+        // Claim only work that can start now. The visible list is also the execution order.
+        private void DispatchWaitingTasks()
         {
-            var tasks = new List<Task>();
-
-            while (!cancellationToken.IsCancellationRequested)
+            lock (_allTasks)
             {
-                if (!_isRunning)
+                if (!_isRunning || _activeTaskCount >= _maxConcurrentTasks) return;
+                foreach (var task in _allTasks)
                 {
-                    await Task.Delay(500, cancellationToken);
-                    continue;
+                    if (task.Status != QueueTaskStatus.Waiting) continue;
+                    task.Status = QueueTaskStatus.Processing;
+                    _activeTaskCount++;
+                    _ = Task.Run(() => RunAndAdvanceAsync(task));
+                    if (_activeTaskCount >= _maxConcurrentTasks) break;
                 }
-
-                if (_taskQueue.TryDequeue(out var task))
-                {
-                    await _semaphore.WaitAsync(cancellationToken);
-                    
-                    var processTask = Task.Run(async () =>
-                    {
-                        try
-                        {
-                            await ProcessTaskAsync(task, cancellationToken);
-                        }
-                        finally
-                        {
-                            _semaphore.Release();
-                        }
-                    }, cancellationToken);
-
-                    tasks.Add(processTask);
-                }
-                else
-                {
-                    // 队列为空，等待一段时间
-                    await Task.Delay(500, cancellationToken);
-                }
-
-                // 清理已完成的任务
-                tasks.RemoveAll(t => t.IsCompleted);
             }
+        }
 
-            // 等待所有任务完成
-            await Task.WhenAll(tasks);
+        private async Task RunAndAdvanceAsync(QueueTask task)
+        {
+            try
+            {
+                await ProcessTaskAsync(task, _cancellationTokenSource.Token);
+            }
+            finally
+            {
+                lock (_allTasks) _activeTaskCount--;
+                DispatchWaitingTasks();
+            }
         }
 
         /// <summary>
@@ -362,7 +337,6 @@ namespace Cascade.Services
         {
             try
             {
-                task.Status = QueueTaskStatus.Processing;
                 task.StartTime = DateTime.Now;
                 TaskStatusChanged?.Invoke(this, task);
 

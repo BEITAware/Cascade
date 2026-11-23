@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Text.Json.Nodes;
 using Cascade.ViewModels.Operations;
-using Cascade.Services;
 
 namespace Cascade.ViewModels.Operations.FFmpeg
 {
@@ -77,13 +76,28 @@ namespace Cascade.ViewModels.Operations.FFmpeg
 
         #endregion
 
+        public int[] AacBitrates { get; } = [64, 96, 128, 160, 192, 256, 320];
+        private string _audioMode = "auto";
+        public string AudioMode
+        {
+            get => _audioMode;
+            set
+            {
+                if (SetProperty(ref _audioMode, value))
+                    OnPropertyChanged(nameof(IsAacSelected));
+            }
+        }
+
+        public bool IsAacSelected => AudioMode == "aac";
+        private int _aacBitrate = 192;
+        public int AacBitrate
+        {
+            get => _aacBitrate;
+            set => SetProperty(ref _aacBitrate, value);
+        }
+
         public MuxingAndDeliveryViewModel()
         {
-            // 默认选择MKV
-            SelectedContainerIndex = 0;
-
-            LocalizationService.LanguageChanged += OnLanguageChanged;
-            
             // 发布初始值到OperationContext
             PublishInitialValues();
         }
@@ -93,11 +107,16 @@ namespace Cascade.ViewModels.Operations.FFmpeg
             PublishData(nameof(SelectedContainerIndex), SelectedContainerIndex);
             PublishData(nameof(IsWebOptimized), IsWebOptimized);
             PublishData(nameof(IsHeaderCompression), IsHeaderCompression);
+            PublishData(nameof(AudioMode), AudioMode);
+            PublishData(nameof(AacBitrate), AacBitrate);
         }
 
-        private void OnLanguageChanged(object? sender, string e)
+        protected override void LoadFromContext()
         {
-            // 触发相关属性更新
+            base.LoadFromContext();
+            // Older presets have no audio settings.
+            AudioMode = Context.GetData(SubPageId, nameof(AudioMode), "auto")!;
+            AacBitrate = Context.GetData(SubPageId, nameof(AacBitrate), 192);
         }
 
         public override JsonObject Serialize()
@@ -106,7 +125,9 @@ namespace Cascade.ViewModels.Operations.FFmpeg
             {
                 ["selectedContainerIndex"] = SelectedContainerIndex,
                 ["isWebOptimized"] = IsWebOptimized,
-                ["isHeaderCompression"] = IsHeaderCompression
+                ["isHeaderCompression"] = IsHeaderCompression,
+                ["audioMode"] = AudioMode,
+                ["aacBitrate"] = AacBitrate
             };
         }
 
@@ -118,6 +139,8 @@ namespace Cascade.ViewModels.Operations.FFmpeg
                 IsWebOptimized = iwo?.GetValue<bool>() ?? false;
             if (data.TryGetPropertyValue("isHeaderCompression", out var ihc))
                 IsHeaderCompression = ihc?.GetValue<bool>() ?? false;
+            AudioMode = data["audioMode"]?.GetValue<string>() ?? "auto";
+            AacBitrate = data["aacBitrate"]?.GetValue<int>() ?? 192;
         }
     }
 }

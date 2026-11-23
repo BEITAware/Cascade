@@ -23,7 +23,14 @@ namespace Cascade.ViewModels
         private string _outputSize = string.Empty;
         private string _outputFormat = string.Empty;
         private bool _hasMedia = false;
+        private bool _needsVideoEncoder;
         private MediaItem? _selectedMediaItem;
+
+        public bool NeedsVideoEncoder
+        {
+            get => _needsVideoEncoder;
+            private set => SetProperty(ref _needsVideoEncoder, value);
+        }
 
         public TasksViewModel()
         {
@@ -179,8 +186,8 @@ namespace Cascade.ViewModels
 #endif
 
                 // 获取输出路径
-                var outputPath = context.GetData<string>("cascade-io-naming-output", "outputPath");
-                var outputFileName = context.GetData<string>("cascade-io-naming-output", "outputFileName");
+                var outputPath = Services.CascadeIO.OutputPathResolver.GetNamingSetting(context, "OutputPath");
+                var outputFileName = Services.CascadeIO.OutputPathResolver.GetNamingSetting(context, "OutputFileName");
                 
 #if DEBUG
                 System.Diagnostics.Debug.WriteLine($"Output Path: {outputPath}");
@@ -205,6 +212,7 @@ namespace Cascade.ViewModels
 
                 // 获取视频编码器信息
                 var codecIndex = context.GetData<int>("ffmpeg-video-encoder-strategy", "SelectedCodecIndex");
+                NeedsVideoEncoder = backendType == BackendType.VapourSynth && codecIndex == 0;
                 var encoderIndex = context.GetData<int>("ffmpeg-video-encoder-strategy", "SelectedEncoderIndex");
                 
 #if DEBUG
@@ -563,6 +571,7 @@ namespace Cascade.ViewModels
 
                 // 为所有媒体项生成任务
                 var tasksToAdd = new List<Services.QueueTask>();
+                var validationErrors = new List<string>();
                 
                 foreach (var mediaItem in MediaItems)
                 {
@@ -589,6 +598,26 @@ namespace Cascade.ViewModels
 #if DEBUG
                         System.Diagnostics.Debug.WriteLine($"Skipping {mediaItem.Name}: Invalid task item");
 #endif
+                        if (context.SelectedBackend == BackendType.VapourSynth)
+                            validationErrors.Add($"{mediaItem.Name}: {string.Join("\n", taskItem.Errors)}");
+                        continue;
+                    }
+
+                    if (context.SelectedBackend == BackendType.VapourSynth)
+                    {
+                        var result = commandBuilder.GenerateCommand(context);
+                        if (result.VapourSynthJob == null)
+                        {
+                            validationErrors.Add($"{mediaItem.Name}: {string.Join("\n", result.ValidationResult.Errors)}");
+                            continue;
+                        }
+                        tasksToAdd.Add(new Services.QueueTask
+                        {
+                            MediaItem = mediaItem,
+                            Command = result.Content,
+                            OutputPath = result.VapourSynthJob.Destination,
+                            VapourSynthJob = result.VapourSynthJob
+                        });
                         continue;
                     }
 
@@ -660,7 +689,11 @@ namespace Cascade.ViewModels
                         $"{Services.LocalizationService.GetString("Queue_TasksAdded")}: {tasksToAdd.Count}",
                         false);
                 }
-                else
+                if (validationErrors.Count > 0)
+                {
+                    Services.NotificationService.SendWarning(string.Join("\n", validationErrors), false);
+                }
+                else if (tasksToAdd.Count == 0)
                 {
                     Services.NotificationService.SendWarning("Tasks_NoValidTasks");
 #if DEBUG

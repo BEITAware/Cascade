@@ -255,6 +255,11 @@
     <system:String x:Key="MuxingDelivery_FormatContainer">Format and Container</system:String>
     <system:String x:Key="MuxingDelivery_WebOptimized">Web Optimized</system:String>
     <system:String x:Key="MuxingDelivery_HeaderCompression">Header Compression</system:String>
+    <system:String x:Key="MuxingDelivery_Audio">Audio</system:String>
+    <system:String x:Key="MuxingDelivery_AudioAuto">Container default</system:String>
+    <system:String x:Key="MuxingDelivery_AudioCopy">Copy original audio</system:String>
+    <system:String x:Key="MuxingDelivery_AudioNone">Remove audio</system:String>
+    <system:String x:Key="MuxingDelivery_AacBitrate">AAC bitrate (kb/s)</system:String>
     
     <!-- Video encoder names -->
     <!-- H.264 encoders -->
@@ -373,6 +378,15 @@
     <system:String x:Key="Queue_ConfirmRemove_Title">Confirm Removal</system:String>
     <system:String x:Key="Queue_EstimatedRemaining">Est. Remaining</system:String>
     
-</ResourceDictionary>
-    
+    <system:String x:Key="VS_Processing">Frame processing</system:String>
+    <system:String x:Key="VS_Enable">Process video with VapourSynth</system:String>
+    <system:String x:Key="VS_Requirements">Requires VSPipe and the FFMS2 source plugin. Choose a video encoder in FFmpeg. The frame pipe uses a constant frame rate.</system:String>
+    <system:String x:Key="VS_Depth">Processing precision</system:String>
+    <system:String x:Key="VS_Blur">Box blur radius (0 = off)</system:String>
+    <system:String x:Key="VS_Threads">Worker threads (0 = automatic)</system:String>
+    <system:String x:Key="VS_ChooseEncoder">Choose a video encoder in FFmpeg before using VapourSynth. Frame processing requires re-encoding.</system:String>
+    <system:String x:Key="VS_InvalidSettings">VapourSynth settings are outside their supported range.</system:String>
+    <system:String x:Key="VS_SourceIsOutput">Choose a different output path to preserve the source video.</system:String>
+    <system:String x:Key="VS_OutputExists">The output file already exists.</system:String>
+    <system:String x:Key="VS_ToolError">Install the tool and add it to PATH, or place it in Cascade’s Libs folder.</system:String>
 </ResourceDictionary>

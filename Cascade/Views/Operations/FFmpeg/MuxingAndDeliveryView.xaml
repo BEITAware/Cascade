@@ -44,6 +44,20 @@
                       IsChecked="{Binding IsHeaderCompression}"
                       IsEnabled="{Binding IsHeaderCompressionEnabled}"/>
 
+            <TextBlock Text="{DynamicResource MuxingDelivery_Audio}" FontSize="14" FontWeight="SemiBold" Foreground="#FF61D1F0" Margin="0,16,0,8"/>
+            <ComboBox Width="160" Height="28" HorizontalAlignment="Left"
+                      SelectedValuePath="Tag" SelectedValue="{Binding AudioMode}">
+                <ComboBoxItem Tag="auto" Content="{DynamicResource MuxingDelivery_AudioAuto}"/>
+                <ComboBoxItem Tag="copy" Content="{DynamicResource MuxingDelivery_AudioCopy}"/>
+                <ComboBoxItem Tag="aac" Content="AAC"/>
+                <ComboBoxItem Tag="none" Content="{DynamicResource MuxingDelivery_AudioNone}"/>
+            </ComboBox>
+            <StackPanel Margin="0,12,0,0" Visibility="{Binding IsAacSelected, Converter={StaticResource BoolToVisibility}}">
+                <ComboBox Width="160" Height="28" HorizontalAlignment="Left"
+                          ItemsSource="{Binding AacBitrates}" SelectedItem="{Binding AacBitrate}"/>
+                <TextBlock Text="{DynamicResource MuxingDelivery_AacBitrate}" FontSize="10" Foreground="#99FFFFFF" Margin="4,2,0,0"/>
+            </StackPanel>
+
             <!-- 底部间距 -->
             <Border Height="20"/>
         </StackPanel>

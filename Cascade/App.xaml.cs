@@ -40,6 +40,15 @@ namespace Cascade
                 Order = 10
             });
 
+            registry.RegisterSubPage("vapoursynth", new OperationSubPageInfo
+            {
+                Id = Services.VapourSynth.VapourSynthCommandBuilder.PageId,
+                DisplayNameKey = "VS_Processing",
+                ViewType = typeof(Views.Operations.VapourSynth.ProcessingView),
+                ViewModelType = typeof(ViewModels.Operations.VapourSynth.ProcessingViewModel),
+                Order = 10
+            });
+
             // FFmpeg 子页面
             registry.RegisterSubPage("ffmpeg", new OperationSubPageInfo
             {

@@ -46,8 +46,8 @@ namespace Cascade.Services.CommandBuilders.FFmpeg.Providers
                 if (string.IsNullOrWhiteSpace(inputFilePath))
                 {
                     // 如果没有设置输入文件，回退到旧的行为（直接使用 outputPath 和 outputFileName）
-                    var outputPath = context.GetData<string>("cascade-io-naming-output", "outputPath", string.Empty);
-                    var outputFileName = context.GetData<string>("cascade-io-naming-output", "outputFileName", string.Empty);
+                    var outputPath = OutputPathResolver.GetNamingSetting(context, "OutputPath");
+                    var outputFileName = OutputPathResolver.GetNamingSetting(context, "OutputFileName");
 
                     if (string.IsNullOrWhiteSpace(outputPath))
                     {
@@ -105,8 +105,8 @@ namespace Cascade.Services.CommandBuilders.FFmpeg.Providers
 
                 // 额外验证：确保至少有输出路径或输入文件
                 var inputFilePath = context.GetData<string>("cascade-io-input", "currentInputFile", string.Empty);
-                var outputPath = context.GetData<string>("cascade-io-naming-output", "outputPath", string.Empty);
-                var outputFileName = context.GetData<string>("cascade-io-naming-output", "outputFileName", string.Empty);
+                var outputPath = OutputPathResolver.GetNamingSetting(context, "OutputPath");
+                var outputFileName = OutputPathResolver.GetNamingSetting(context, "OutputFileName");
 
                 if (string.IsNullOrWhiteSpace(inputFilePath))
                 {

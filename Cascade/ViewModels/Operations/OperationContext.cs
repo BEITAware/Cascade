@@ -545,10 +545,12 @@ namespace Cascade.ViewModels.Operations
                     }
                 }
                 
-                if (sharedData != null && sharedData.Count > 0)
+                if (sharedData != null)
                 {
+                    string[] changedPages;
                     lock (_sharedDataLock)
                     {
+                        changedPages = _sharedData.Keys.Union(sharedData.Keys).ToArray();
                         _sharedData.Clear();
                         foreach (var kvp in sharedData)
                         {
@@ -556,7 +558,7 @@ namespace Cascade.ViewModels.Operations
                         }
                     }
                     // 触发所有页面的数据变更事件
-                    foreach (var pageId in sharedData.Keys)
+                    foreach (var pageId in changedPages)
                     {
                         SharedDataChanged?.Invoke(this, new SharedDataChangedEventArgs(pageId));
                     }

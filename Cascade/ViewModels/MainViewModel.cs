@@ -50,8 +50,17 @@ namespace Cascade.ViewModels
             }
         }
 
+        public RelayCommand ConfigureVideoEncoderCommand { get; }
+
         public MainViewModel()
         {
+            ConfigureVideoEncoderCommand = new RelayCommand(() =>
+            {
+                var group = OperationsVM.Groups.First(g => g.Id == "ffmpeg");
+                group.IsExpanded = true;
+                OperationsVM.SelectedSubPageViewModel = group.SubPages.First(p => p.Id == "ffmpeg-video-encoder-strategy");
+                SelectedTabIndex = 1;
+            });
             StatusMessage = LocalizationService.GetString("Status_Ready");
             
             // 监听媒体列表变化（添加/删除媒体）
